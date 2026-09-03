@@ -1,0 +1,55 @@
+# 小站一键部署编排：mysql + backend + frontend 三服务
+# 用法：cd deploy && cp .env.example .env（填好密码）&& docker compose up -d --build
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: blog-mysql
+    command:                                        # 2G 内存机器必配：限制 MySQL 内存占用（防长期运行 OOM 卡死）
+      - --innodb-buffer-pool-size=64M               # InnoDB 缓冲池（默认 128M+，小机器降级）
+      - --max-connections=50                        # 连接数上限（博客够用）
+      - --performance-schema=OFF                    # 关闭性能监控表（省内存）
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}   # 从 .env 读
+      MYSQL_DATABASE: blog                          # 自动建库（utf8mb4 默认）
+    ports:
+      - "127.0.0.1:3306:3306"                       # 只绑宿主机 localhost（不暴露公网）：供 SSH 隧道/本机访问
+    volumes:
+      - mysql_data:/var/lib/mysql                   # 数据持久化（容器删了数据不丢）
+    healthcheck:                                    # 健康检查：后端等 MySQL 就绪才启动
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    # context 指向项目根的 backend/（代码），dockerfile 指向 deploy/ 里的 Dockerfile
+    build:
+      context: ../backend
+      dockerfile: ../deploy/backend/Dockerfile
+    container_name: blog-backend
+    environment:
+      # 连接串指向 compose 网络内的 mysql 服务名（不是 localhost！）
+      DATABASE_URL: mysql+pymysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/blog?charset=utf8mb4
+      JWT_SECRET: ${JWT_SECRET}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+    depends_on:
+      mysql:
+        condition: service_healthy   # MySQL 健康后才启动，避免连不上
+    expose:
+      - "8000"                       # 只暴露给 compose 网络，不映射公网
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../deploy/frontend/Dockerfile
+    container_name: blog-frontend
+    ports:
+      - "80:80"                      # 对外端口：AI 伴侣已退役，小站独占 80
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

@@ -1,0 +1,33 @@
+# ===== 密钥与配置（绝不提交！）=====
+backend/.env
+deploy/.env
+*.env
+!.env.example
+
+# ===== 数据库 =====
+backend/blog.db
+*.db
+
+# ===== 备份文件（可能含旧密钥）=====
+*.bak
+
+# ===== Python =====
+.venv/
+__pycache__/
+*.pyc
+
+# ===== Node =====
+node_modules/
+dist/
+
+# ===== IDE =====
+.idea/
+.vscode/
+
+# ===== 测试脚本（可能硬编码了密码）=====
+backend/check_auth.py
+backend/auth_prove.py
+
+# ===== 系统 =====
+.DS_Store
+Thumbs.db

@@ -1,0 +1,19 @@
+# ===== 后端依赖清单 =====
+# 安装命令（在 backend 目录下）：
+#   python -m venv .venv
+#   .venv\Scripts\pip install -r requirements.txt
+# 启动命令：
+#   .venv\Scripts\uvicorn app.main:app --reload --port 8000
+
+fastapi>=0.115          # Web 框架：路由 / 参数校验 / 依赖注入
+uvicorn[standard]>=0.30 # ASGI 服务器：真正把 FastAPI 跑起来的进程
+sqlalchemy>=2.0         # ORM：Python 对象 <-> 数据库表
+pydantic>=2.0           # 数据校验（FastAPI 自带，这里显式声明版本）
+pydantic-settings>=2.0  # 读 .env / 环境变量生成配置对象
+bcrypt>=4.0             # 密码哈希（比 passlib 少踩兼容坑）
+PyJWT>=2.8              # 签发/校验 JWT 登录令牌
+python-multipart>=0.0.9 # FastAPI 表单解析（登录接口要传表单）
+pymysql>=1.1            # MySQL 纯 Python 驱动（部署生产环境用，本地 SQLite 不需要）
+httpx>=0.27            # DeepSeek API 调用（AI 助手）
+apscheduler>=3.10            # 定时任务（友链监控 Agent）
+jieba==0.42.1                   # 最新稳定版，直接固定版本防止兼容性问题 中文分词，纯 Python 轻量

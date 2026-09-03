@@ -1,0 +1,15 @@
+/* 全局样式：所有页面共享的基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;   /* 盒模型：宽高包含内边距，布局更直观 */
+}
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;  /* 中文字体优先 */
+  background: #f9fafb;      /* 浅灰背景 */
+  color: #1f2937;           /* 深灰文字 */
+}
+
+h1 { margin-bottom: 16px; }
+p { line-height: 1.7; }
