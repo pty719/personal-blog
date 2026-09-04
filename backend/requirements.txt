@@ -18,3 +18,5 @@ httpx>=0.27            # DeepSeek API 调用（AI 助手）
 apscheduler>=3.10            # 定时任务（友链监控 Agent）
 jieba==0.42.1                   # 最新稳定版，直接固定版本防止兼容性问题 中文分词，纯 Python 轻量
 feedparser>=6.0            # RSS 解析（AI 新闻爬取）
+fastembed>=0.5            # 轻量 embedding（RAG 语义检索）
+onnxruntime>=1.18        # fastembed 推理引擎

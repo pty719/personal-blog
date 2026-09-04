@@ -210,7 +210,7 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 - [x] **限流防护**：IP 限流 + 会话轮数 + 消息长度 + event_stream 兜底
 - [x] **RAG 知识库"问博主"**：切块 + TF-IDF 检索 + 增强回答
 - [ ] AI 助手增强：摘要压缩（>20 条自动压缩，防 token 爆炸）
-- [ ] RAG 升级：embedding 模型 + 向量库（替换 TF-IDF）
+- [x] RAG 升级：embedding（fastembed + bge-small-zh）替换 TF-IDF（numpy 余弦，接口不变）
 - [ ] 回答引用链接化（点击跳到原文）
 - [ ] 管理后台"修改密码"功能（正规做法，替代手动改库）
 - [ ] README 顶部项目徽章/截图美化（求职包装阶段）

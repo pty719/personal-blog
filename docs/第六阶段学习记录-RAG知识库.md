@@ -106,7 +106,37 @@ for _id, title, chunk, chunk_words in INDEX:
 
 ---
 
-## 6. 待办（后续增强）
+## 6. 升级：TF-IDF → Embedding（2026-09，已完成）
+
+### 为什么升级
+TF-IDF 只能**字面匹配**（问"导数"，文章没这词就找不到）；embedding 理解**语义**（"变化率"≈"导数"）。
+
+### 技术选型（2G 服务器约束）
+- sentence-transformers + torch（800MB）→ 太重 ❌
+- **fastembed + onnxruntime + bge-small-zh-v1.5**（~150MB）✅
+- 向量库：块少用 numpy 全量余弦（毫秒级）；量大换 FAISS/Chroma（接口不变）
+
+### 核心代码（检索 3 行）
+```python
+q_vec = np.array(_embed([query])[0])                        # 问题向量
+vectors = np.array([item[3] for item in INDEX])             # 所有块向量
+scores = vectors @ q_vec / (np.linalg.norm(vectors, axis=1) * np.linalg.norm(q_vec) + 1e-9)
+```
+
+### 国内模型下载两个坑（实测）
+1. HuggingFace 直连被墙 → `HF_ENDPOINT=https://hf-mirror.com`
+2. 新版 huggingface_hub 默认 Xet 协议（cas-server.xethub.hf.co 401）→ `HF_HUB_DISABLE_XET=1`
+（compose backend environment 已配好）
+
+### 验证
+问"微积分里研究变化率的概念是什么" → 命中讲**导数**的块（语义！TF-IDF 做不到）
+
+### 面试话术
+> "RAG 从 TF-IDF 升级到 embedding：对比了 torch 方案（800MB）对 2G 服务器太重，选 fastembed + bge-small-zh（轻量）。数据量小用 numpy 余弦检索，架构解耦随时换 FAISS。踩了国内模型下载的坑：HF 镜像 + 禁用 Xet 协议。"
+
+---
+
+## 7. 待办（后续增强）
 
 - [ ] embedding 模型（bge-m3）+ 向量库（Chroma）替换 TF-IDF
 - [ ] 语义切块（按段落/标题切，代替固定长度）

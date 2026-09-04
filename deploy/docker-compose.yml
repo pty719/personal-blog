@@ -33,6 +33,8 @@ services:
       DATABASE_URL: mysql+pymysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/blog?charset=utf8mb4
       JWT_SECRET: ${JWT_SECRET}
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+      HF_ENDPOINT: https://hf-mirror.com          # 模型下载走国内镜像（否则容器里被墙超时）
+      HF_HUB_DISABLE_XET: "1"                     # 禁用 Xet 协议（cas-server 域名 401）
     depends_on:
       mysql:
         condition: service_healthy   # MySQL 健康后才启动，避免连不上
