@@ -12,14 +12,16 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 
+from .jobs.news_fetcher import fetch_ai_news
 from .jobs.friend_monitor import check_all_friends
 from .auth import router as auth_router
-from .routers import articles, moments, friends, projects, assistants
+from .routers import articles, moments, friends, projects, assistants, ai_news
 from .services.rag import build_index
 
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(check_all_friends, 'cron', hour=8, minute=0)   # 每天 8:00（函数引用，无括号）
+scheduler.add_job(fetch_ai_news, 'interval', hours=6)
 scheduler.start()
 # 启动时立即跑一次（部署完马上看到效果）
 check_all_friends()
@@ -49,6 +51,7 @@ app.include_router(moments.router)
 app.include_router(friends.router)
 app.include_router(projects.router)
 app.include_router(assistants.router)
+app.include_router(ai_news.router)
 
 @app.get("/health")
 @app.get("/api/health")

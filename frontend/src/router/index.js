@@ -10,6 +10,7 @@ import FriendsView from "../views/FriendsView.vue";
 import AdminView from "../views/AdminView.vue";
 import LoginView from "../views/LoginView.vue";
 import AiPartnerView from "../views/AiPartnerView.vue";
+import AiNewsView from '../views/AiNewsView.vue'
 import AssistantView from "../views/AssistantView.vue";
 
 // 路由表：加新页面就在这里加一行
@@ -22,6 +23,11 @@ const routes = [
   {path: '/projects', name: 'project', component: ProjectsView},
   {path: '/ai-partner', name: 'ai-partner', component: AiPartnerView},   // AI 伴侣展示页
   {path: '/ai-assistant', name: 'ai-assistant', component: AssistantView},   // AI 助手
+  {
+    path: '/ai-news',
+    name: 'AiNews',
+    component: AiNewsView,
+  },
   {path: '/admin', name: 'admin', component: AdminView},
   {path: '/login', name: 'login', component: LoginView}
   // Week 2 陆续加：文章列表 / 文章详情 / 说说 / 友链 / 项目 / 关于 / 管理后台

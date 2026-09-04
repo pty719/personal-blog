@@ -1,15 +1,52 @@
-/* 全局样式：所有页面共享的基础样式 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;   /* 盒模型：宽高包含内边距，布局更直观 */
+/* 全局样式：Tailwind v4 入口 + Editorial（编辑杂志风）基底
+   ------------------------------------------------------------------
+   【为什么分层导入、不引 preflight？】
+   Tailwind v4 默认 @import "tailwindcss" 会带上一整套 reset（preflight），
+   会重置 button/input 等原生控件样式。这里我们只要「工具类」，
+   跳过 preflight，避免后台/登录等旧页面的原生控件意外变形——
+   全站只统一 底色 + 文字颜色 + 字体栈，内部组件保持各自样式。 */
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);       /* v4 主题变量（含默认配色） */
+@import "tailwindcss/utilities.css" layer(utilities); /* 工具类（font-serif / border / px-6 ...） */
+
+/* @theme：自定义设计令牌，会生成对应工具类，例如：
+   bg-background / text-foreground / border-border、font-serif / font-sans */
+@theme {
+  --color-background: #f9f8f6;   /* Editorial 暖米底 */
+  --color-foreground: #1c1c1c;   /* Editorial 柔和黑（透明层次直接用 /60 /40 /10） */
+  --color-border: #1c1c1c;       /* 分隔线同源，使用时用 /10 透明度 */
+
+  /* 暖色点缀（Editorial 单色基底之上局部使用，仅激活态/高亮/编号） */
+  --color-primary: #d4a373;      /* 主色：暖沙 */
+  --color-accent: #cc8b5c;       /* 强调色：更深暖咖（暂未使用，备用） */
+
+  /* 衬线栈：西文 Georgia/Times，中文回退 宋体族（思源宋体/宋体-简/SimSun） */
+  --font-serif: Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  /* 无衬线栈：中文优先苹方/雅黑 */
+  --font-sans: "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  /* 等宽栈：后端状态、代码用 */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
 }
 
-body {
-  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;  /* 中文字体优先 */
-  background: #f9fafb;      /* 浅灰背景 */
-  color: #1f2937;           /* 深灰文字 */
+/* base 层：reset + 全局底色/字体。
+   ⚠ 必须放进 @layer base —— 若写成无 layer 的普通规则，会因
+   「未分层样式优先级高于 @layer」而把 utilities 层里的
+   px-6/py-20/mb-10 等间距工具类全部压成 0。 */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    background: #f9f8f6;   /* 顶到最外层，防止滚动露白 */
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-weight: 450;          /* 正文稍加粗，改善可读性（标题仍各自 400） */
+    line-height: 1.7;
+  }
 }
-
-h1 { margin-bottom: 16px; }
-p { line-height: 1.7; }

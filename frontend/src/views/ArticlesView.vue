@@ -22,40 +22,37 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h2>文章列表</h2>
+  <section>
+    <h2 class="font-serif font-normal tracking-tight text-2xl mb-8 md:mb-12">
+      文章列表
+    </h2>
 
-  <!-- ③ 三个状态：加载中 / 出错 / 空列表，用 v-if 逐个判断 -->
-  <p v-if="loading">加载中...</p>
-  <p v-else-if="error">{{ error }}</p>
-  <p v-else-if="articles.length === 0">暂无文章</p>
+    <!-- 三个状态：加载中 / 出错 / 空列表 -->
+    <p v-if="loading" class="font-sans text-sm text-foreground/60">加载中...</p>
+    <p v-else-if="error" class="font-sans text-sm text-foreground/60">{{ error }}</p>
+    <p v-else-if="articles.length === 0" class="font-sans text-sm text-foreground/60">暂无文章</p>
 
-  <!-- ④ v-for 遍历真实数据，:key 用 article.id（后端返回的唯一 id） -->
-  <ul v-else>
-    <li v-for="article in articles" :key="article.id" class="article-item">
-      <router-link :to="`/articles/${article.id}`" class="article-link">
-        <div class="article-title">{{ article.title }}</div>
-        <div class="article-summary">{{ article.summary }}</div>
-        <div class="article-meta">
-        {{ article.category }} · {{ article.views }} 次浏览 ·
-        {{ article.created_at.slice(0, 10) }}   <!-- 日期只取前 10 位（YYYY-MM-DD） -->
-      </div>
-      </router-link>
-    </li>
-  </ul>
+    <!-- 时间线式列表：细左边框 + hover 浅灰 /5 底 + 大行距 -->
+    <ul v-else class="list-none">
+      <li v-for="article in articles" :key="article.id">
+        <router-link
+          :to="`/articles/${article.id}`"
+          class="group no-underline text-inherit block border-l-2 border-foreground/10 hover:border-foreground/40 py-6 pl-5 md:pl-8 pr-2 bg-transparent hover:bg-foreground/5 transition-colors"
+        >
+          <h3 class="font-serif font-normal tracking-tight text-xl md:text-2xl leading-snug text-foreground group-hover:italic transition-all duration-500">
+            {{ article.title }}
+          </h3>
+          <!-- 正文：text-lg + leading-8 -->
+          <p class="font-sans text-lg leading-8 text-foreground/90 mt-2 mb-3">
+            {{ article.summary }}
+          </p>
+          <!-- 元信息：辅助 text-sm /40 -->
+          <p class="font-sans text-sm text-foreground/40 mt-1">
+            {{ article.category }} · {{ article.views }} 次浏览 ·
+            {{ article.created_at.slice(0, 10) }}
+          </p>
+        </router-link>
+      </li>
+    </ul>
+  </section>
 </template>
-
-<style scoped>
-.article-item {
-  list-style: none;
-  padding: 16px;
-  margin-bottom: 12px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-}
-.article-title { font-size: 18px; font-weight: bold; }
-.article-summary { color: #6b7280; margin: 6px 0; }
-.article-meta { color: #9ca3af; font-size: 13px; }
-.article-link { text-decoration: none; color: inherit; display: block; }
-.article-link:hover .article-title { color: #2563eb; }   /* 悬停变蓝 */
-</style>

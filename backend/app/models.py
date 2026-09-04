@@ -96,3 +96,13 @@ class Assistant(Base):
     role: Mapped[str] = mapped_column(String(10), default="", nullable=False)   # user / assistant / summary
     content: Mapped[str] = mapped_column(Text, default="", nullable=False)      # 消息内容
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+class AiNews(Base):
+    __tablename__ = "ai_news"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    title: Mapped[str] = mapped_column(String(200), nullable=False)
+    url: Mapped[str] = mapped_column(String(200), default="", nullable=False, unique=True)
+    summary: Mapped[str] = mapped_column(String(500), default="", nullable=False)
+    source: Mapped[str] = mapped_column(String(200), default="", nullable=False)
+    published_at: Mapped[datetime] = mapped_column(DateTime, default="", server_default=func.now())

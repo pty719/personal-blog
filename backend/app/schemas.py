@@ -145,3 +145,13 @@ class AssistantOut(BaseModel):
     role : str
     content : str
     created_at: datetime
+
+#ai爬取新闻
+class AiNewsOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    title: str
+    url: str
+    summary: str = ""
+    source: str = ""
+    published_at: datetime | None = None
