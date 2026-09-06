@@ -72,7 +72,29 @@ for _ in range(5):
 - **LLM 无状态**，上下文要外部管理
 - 方案：conversation_id（uuid）+ 数据库存消息 + 前端 localStorage 存 id
 - 匿名会话模式：游客免登录，浏览器自动拥有独立会话
-- 升级方向：摘要压缩（>20 条调 LLM 总结）、RAG、登录后绑定 user_id
+- 升级方向：RAG 知识库（已做）、登录后绑定 user_id（后续）；**摘要压缩见 3.4+（已实现）**
+
+### 3.4+ 记忆增强：长对话摘要压缩（C2，已实现并上线）
+
+**动机**：对话到 30 轮历史 60+ 条 → 每次请求全量发 DeepSeek → token 线性膨胀
+
+**设计**：
+- 存储：**复用 assistants 表**，摘要 = 一条 `role='summary'` 消息（content 存摘要）——不加列！摘要本质是"要发给 LLM 的对话内容"，和普通消息同构（查询/排序/组装零特殊逻辑）
+- 触发：`len(history) > 20` 条 → 压缩
+- 压缩：最早 (N-5) 条 + 已有 summary → 调 LLM 压成 120 字摘要 → **滚动更新**（更新已有 summary，不新增）→ 删旧消息
+- 顺序：event_stream 组装 messages 前 `history.sort(summary 置顶)`——模型先看摘要再看最近对话
+- 兜底：DeepSeek 挂了不压缩，全量发送（压缩是优化不是依赖）
+
+**验收**（本地实测）：25 条 → 压缩后 6 条（summary 1 条）；再 20 条 → 第二次压缩 summary 仍 1 条（滚动）✅
+
+**踩坑**：
+1. **ORM 模型 ≠ 数据库表**：加列后 create_all 不会给已存在表加列 → `no such column` 500（要 ALTER TABLE 迁移）
+2. f-string 塞 ORM 对象（输出 `<object at 0x...>`）——要 `.content`
+3. messages 列表混 str/dict → DeepSeek 400——必须全 dict
+4. summary 别当普通消息删——先分离 role='summary'
+5. 压缩后要**重新查 history**（库里已删旧消息）——否则本轮请求还是旧历史
+
+**面试话术**："长对话做摘要压缩：>20 条触发，最早消息 LLM 压成 role=summary 滚动更新，请求历史 = 摘要 + 最近几条，token 基本恒定；失败降级全量——LangChain Summary Memory 同思路。"
 
 ### 3.5 FastAPI 依赖注入 vs SessionLocal
 | | 路由函数 | 普通函数 |
@@ -124,8 +146,8 @@ for _ in range(5):
 
 ## 7. 待办（后续增强）
 
-- [ ] 任务 C2：摘要压缩（>20 条自动压缩早期对话，防 token 爆炸）
-- [ ] 文章 AI 摘要（发布时自动生成）
-- [ ] 友链监控 Agent（APScheduler 定时巡检 friends 表）
-- [ ] RAG 知识库"问博主"（30 天计划 W3）
+- [x] 任务 C2：摘要压缩（>20 条自动压缩早期对话，防 token 爆炸）
+- [x] 文章 AI 摘要（发布时自动生成）
+- [x] 友链监控 Agent（APScheduler 定时巡检 friends 表）
+- [x] RAG 知识库"问博主"（30 天计划 W3）
 - [ ] 会话历史列表 UI（像 ChatGPT 左侧栏）

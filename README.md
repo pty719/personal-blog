@@ -48,7 +48,7 @@
 - 线上 admin 密码已改（默认密码已失效，见部署记录）
 
 ### ✅ Week 3-4：Agent 能力全家桶（8-28 ~ 8-31）
-- **AI 助手**：ReAct 循环（DeepSeek function calling）+ SSE 流式 + 会话记忆（assistants 表 + localStorage 匿名会话）
+- **AI 助手**：ReAct 循环（DeepSeek function calling）+ SSE 流式 + 会话记忆（assistants 表 + localStorage 匿名会话 + **>20 条滚动摘要压缩**）
 - **文章 AI 摘要**：发布时自动调 LLM 生成（`utils/llm.py` 公共模块）
 - **友链监控 Agent**：APScheduler 每天 8:00 巡检（HEAD 探测 + is_active/last_check）
 - **防护三件套**：IP 限流（10 次/分钟 429）+ 会话轮数 + 消息长度 + event_stream 兜底
@@ -209,8 +209,8 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 - [x] **友链监控 Agent**：APScheduler 定时巡检（HEAD 探测 + 失效标记）
 - [x] **限流防护**：IP 限流 + 会话轮数 + 消息长度 + event_stream 兜底
 - [x] **RAG 知识库"问博主"**：切块 + TF-IDF 检索 + 增强回答
-- [ ] AI 助手增强：摘要压缩（>20 条自动压缩，防 token 爆炸）
+- [x] AI 助手增强：摘要压缩（>20 条触发，LLM 滚动摘要，role=summary 存储）
 - [x] RAG 升级：embedding（fastembed + bge-small-zh）替换 TF-IDF（numpy 余弦，接口不变）
 - [ ] 回答引用链接化（点击跳到原文）
 - [ ] 管理后台"修改密码"功能（正规做法，替代手动改库）
-- [ ] README 顶部项目徽章/截图美化（求职包装阶段）
+- [x] README 顶部项目徽章/截图美化（求职包装阶段）
