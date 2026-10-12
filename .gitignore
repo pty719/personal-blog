@@ -31,3 +31,23 @@ backend/auth_prove.py
 # ===== 系统 =====
 .DS_Store
 Thumbs.db
+
+# ===== docs/ 默认不公开（只保留对外的技术文档）=====
+# 公开的只有：项目介绍 / 教程 / 需求文档 / 部署指南。
+# 学习记录、任务书、作业参考答案、演讲稿、求职材料、企业升级方案一律不进库。
+# ⚠️ 用「白名单」写法：docs/ 下新增的文件默认私密，要公开必须在这里显式加一行 ! 规则。
+#    这样写的另外一个好处：.gitignore 本身也不必逐个点名那些不公开的文档。
+docs/*
+!docs/项目介绍-技术版.md
+!docs/AI助手开发教程.md
+!docs/AI助手开发踩坑记录.md
+!docs/Network网络诊断教程.md
+!docs/moments代码Review与Swagger测试教程.md
+!docs/moments需求文档.md
+!docs/friends和projects需求文档.md
+!docs/friends和projects修复指南.md
+!docs/网站部署从零到上线-小白教程.md
+!docs/部署指南.md
+
+# ===== 根目录的学习路线总方案（不公开）=====
+/小站复刻方案与学习路线.md

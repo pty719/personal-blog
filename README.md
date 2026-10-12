@@ -184,25 +184,19 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 
 | 文档 | 用途 |
 |---|---|
-| 小站复刻方案与学习路线.md | 总方案（4 周计划） |
-| moments需求文档.md / moments参考答案与思路讲解.md | 说说功能需求 + 参考答案 |
-| moments代码Review与Swagger测试教程.md | Review 复盘 + Swagger 教程 |
-| friends和projects需求文档.md / friends和projects修复指南.md | 友链/项目需求 + 修复 |
-| 前端学习路径.md | Week 2 Vue3/axios 学习计划 |
-| Network网络诊断教程.md | F12 排错（看接口返回/字段契约） |
-| 第二阶段知识点汇总-管理后台.md | axios/登录/token/守卫 知识点 |
-| 前端学习记录.md / 后端学习记录.md | 前后端学习复盘（时间线/踩坑/面试速记） |
-| 第三阶段学习记录-管理后台CRUD.md | 表单 CRUD + 与 Agent 工具的关系 |
-| **网站部署从零到上线-小白教程.md** | 部署实战复盘（5 个坑 + 术语表） |
-| **AI助手开发教程.md** | Week 3 核心：ReAct + DeepSeek + SSE + 4 步任务书 |
-| **AI助手开发踩坑记录.md** | AI 助手任务一~三踩坑：role/tool_calls/SSE 格式 + 面试话术 |
-| **第五阶段学习记录-生产防护.md** | 友链监控 + 限流 + chat_completion 排查复盘 |
-| **第六阶段学习记录-RAG知识库.md** | RAG 五步流程 + TF-IDF 实现 + 工具合并决策 |
-| **第四阶段学习记录-AI助手.md** | AI 助手阶段复盘：架构/知识点/坑/面试速记/部署记录 |
+| 项目介绍-技术版.md | 项目技术介绍（架构 + 技术栈 + 亮点） |
+| AI助手开发教程.md | ReAct + DeepSeek + SSE 完整开发教程 |
+| AI助手开发踩坑记录.md | role / tool_calls / SSE 格式等踩坑复盘 |
+| moments代码Review与Swagger测试教程.md | Code Review 复盘 + Swagger 测试教程 |
+| moments需求文档.md | 说说（moments）功能需求 |
+| friends和projects需求文档.md / friends和projects修复指南.md | 友链 / 项目模块需求与修复 |
+| Network网络诊断教程.md | 用 F12 排查接口（返回体 / 字段契约） |
+| 网站部署从零到上线-小白教程.md | 部署实战复盘（5 个坑 + 术语表） |
+| 部署指南.md | 部署步骤与环境说明 |
 
 ---
 
-## 待办（Week 3-4）
+## 功能清单
 
 - [x] **AI 助手**：SSE + DeepSeek + ReAct + 工具 + 会话记忆，公网 http://***REMOVED-ROTATED***/ai-assistant
 - [x] **文章 AI 摘要**：发布时自动生成（LLM 嵌入业务管道）
