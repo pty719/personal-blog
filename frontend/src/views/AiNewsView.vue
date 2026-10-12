@@ -61,5 +61,11 @@ onMounted(async () => {
         </p>
       </a>
     </div>
+
+    <!-- 合规声明：公开技术资讯聚合，非新闻信息服务（配合备案要求） -->
+    <p class="font-sans text-xs text-foreground/40 leading-6 mt-12 pt-6 border-t border-foreground/10">
+      本站「AI 技术资讯」为公开技术信息聚合：内容来自公开 RSS 源（Hacker News 等），版权归原作者所有，
+      点击标题跳转原文。本站仅作技术资讯展示与学习交流，不提供新闻采编服务，不构成互联网新闻信息服务。
+    </p>
   </div>
 </template>

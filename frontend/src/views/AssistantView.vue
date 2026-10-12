@@ -106,6 +106,10 @@ function scrollToBottom() {
         <button @click="send" :disabled="sending || !input.trim()">{{ sending ? '思考中...' : '发送' }}</button>
       </div>
     </div>
+    <!-- 生成式 AI 服务合规提示（配合备案要求） -->
+    <p class="disclaimer">
+      AI 助手回答由大语言模型生成，仅供参考，请对重要信息自行判断核实；为保障服务质量，对话记录会保存在站内。
+    </p>
   </section>
 </template>
 
@@ -145,4 +149,11 @@ function scrollToBottom() {
   cursor: pointer; white-space: nowrap;
 }
 .input-row button:disabled { opacity: 0.6; cursor: not-allowed; }
+.disclaimer {
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #9a918a;
+  text-align: center;
+}
 </style>

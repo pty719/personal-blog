@@ -49,12 +49,6 @@ const menu = [
       <router-view />
     </div>
   </main>
-
-  <footer class="border-t border-foreground/10 py-10 px-6">
-    <p class="text-center font-sans text-xs tracking-[0.15em] text-foreground/40">
-      © 2026 小站 · FastAPI + Vue3 求职作品
-    </p>
-  </footer>
 </template>
 
 <style scoped>
