@@ -13,9 +13,11 @@ import paramiko
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-HOST = "***REMOVED-ROTATED***"
-USER = "root"
-PASSWORD = "***REMOVED-ROTATED***"      # 用户提供的 SSH 密码（仅本次脚本使用）
+# ⚠️ 服务器连接信息一律从环境变量读取，禁止硬编码（2026-10-13 开源前清理）
+# 用法：在 deploy/.env 或 shell 里设 DEPLOY_HOST / DEPLOY_USER / DEPLOY_PASSWORD
+HOST = os.getenv("DEPLOY_HOST", "")
+USER = os.getenv("DEPLOY_USER", "root")
+PASSWORD = os.getenv("DEPLOY_PASSWORD", "")
 REMOTE_BASE = "/opt/blog"
 LOCAL_BASE = r"D:\blog_project"
 
@@ -98,7 +100,7 @@ def main():
     ssh.close()
     log(f"部署脚本退出码: {code}")
     if code == 0:
-        log("✅ 部署完成！访问 http://***REMOVED-ROTATED***:8080")
+        log(f"✅ 部署完成！访问 http://{HOST}:8080")
     else:
         log("❌ 部署脚本有报错，查看上面输出定位")
 
