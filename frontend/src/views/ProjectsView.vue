@@ -27,13 +27,18 @@ onMounted(async () => {
     <div v-for="project in projects" :key ="project.id" class="project-card">
       <div class="project-header">
         <span class="project-name">{{ project.name}}</span>
-        <span class="project-stars">⭐ {{ project.stars}}</span>
+        <!-- star 数为 0 时不显示，避免页面上出现「⭐ 0」 -->
+        <span v-if="project.stars > 0" class="project-stars">⭐ {{ project.stars}}</span>
       </div>
       <div class="project-desc">{{ project.description}}</div>
       <div class="project-tags">
         <span v-for="tag in project.tech_tags.split(',')" :key="tag" class="tag">{{ tag }}</span>
       </div>
-      <a v-if="project.repo" :href="project.repo" target="_blank" class="project-link">GitHub 仓库 ➡</a>
+      <div class="project-links">
+        <a v-if="project.repo" :href="project.repo" target="_blank" rel="noopener" class="project-link">GitHub 仓库 ➡</a>
+        <!-- 有演示地址时多给一个入口（本站的 url 就是线上地址） -->
+        <a v-if="project.url" :href="project.url" target="_blank" rel="noopener" class="project-link">在线预览 ➡</a>
+      </div>
     </div>
   </div>
 </template>
@@ -53,5 +58,6 @@ onMounted(async () => {
   display: inline-block; font-size: 12px; color: #2563eb;
   background: #eff6ff; padding: 2px 8px; border-radius: 999px; margin-right: 6px;
 }
-.project-link { display: inline-block; margin-top: 8px; color: #2563eb; text-decoration: none; }
+.project-links { display: flex; gap: 16px; margin-top: 8px; }
+.project-link { display: inline-block; color: #2563eb; text-decoration: none; }
 </style>
