@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>yizhiyu 的小站</title>
+  <rect width="64" height="64" rx="14" fill="#4A3F35"/>
+  <ellipse cx="30.125" cy="32" rx="18.125" ry="11.25" fill="none" stroke="#FAF8F5" stroke-width="4.25"/>
+  <path d="M47 32 59 21.25v21.5z" fill="#FAF8F5"/>
+  <circle cx="21.25" cy="27.75" r="2" fill="#FAF8F5"/>
+</svg>
