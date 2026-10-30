@@ -2,7 +2,7 @@
 """小站一键部署脚本（paramiko 编排）
 流程：连接 SSH → 上传 backend/frontend/deploy → 远程执行 install.sh
      （装 Docker → 镜像加速 → 生成 .env → compose 起服务 → 验证）
-运行：cd D:/blog_project/deploy && ../backend/.venv/Scripts/python deploy.py
+运行：cd <项目根>/deploy && ../backend/.venv/Scripts/python deploy.py
 """
 import os
 import stat
@@ -19,7 +19,8 @@ HOST = os.getenv("DEPLOY_HOST", "")
 USER = os.getenv("DEPLOY_USER", "root")
 PASSWORD = os.getenv("DEPLOY_PASSWORD", "")
 REMOTE_BASE = "/opt/blog"
-LOCAL_BASE = r"D:\blog_project"
+# 本地项目根目录：由脚本自身位置自动推断（deploy/ 的上一级），搬家后不用再改
+LOCAL_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 上传时排除的目录/文件（大文件、敏感、不需要的）
 EXCLUDE_DIRS = {".venv", "node_modules", "dist", "__pycache__", ".git"}
