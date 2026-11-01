@@ -14,10 +14,15 @@ backend/blog.db
 *.bak-*
 *.db.bak*
 
-# ===== AI / 编辑器工具产物（不该进仓库）=====
+# ===== AI / 编辑器工具产物 =====
+# .claude/ 和 .dsh/ 是工具目录，整个不入库。
+# ⚠️ .impeccable/ 不能整目录忽略：里面的 config.json + design.json 是【设计系统本体】，
+#    是有意提交的资产。只忽略缓存与本地状态，否则以后改 design.json 会被 ignore 静默挡住。
 .claude/
 .dsh/
-.impeccable/
+.impeccable/hook.cache.json
+.impeccable/live/
+.impeccable/config.local.json
 
 # ===== Python =====
 .venv/
