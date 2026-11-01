@@ -118,6 +118,13 @@ npm run dev
 ```
 > 浏览器访问 **http://localhost:5173**（Vite 绑定 localhost/IPv6，勿用 127.0.0.1）
 
+### 前端测试
+```powershell
+cd D:\blog_project\frontend
+npm test           # Vitest：api / composable / Markdown / TOC
+npm run test:e2e   # Playwright：使用本机 Chrome；后端和前端需先运行
+```
+
 ### 关闭服务
 - 后端/前端都是独立终端跑的：找到窗口 Ctrl+C，或 `netstat -ano | findstr :8000/:5173` 查 PID 后 taskkill
 
@@ -209,6 +216,8 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 - [x] AI 助手：真正的 token 级流式 + 历史会话侧栏 + 回答来源链接
 - [x] 相关文章：复用 embedding 索引做语义相似推荐
 - [x] RSS 订阅 / sitemap.xml / robots.txt（前端 head 已声明 RSS）
+- [x] 文章目录 + 阅读进度（宽屏右侧目录，窄屏折叠）
+- [x] 前端测试：Vitest 单测 + Playwright 冒烟
 - [x] RAG 升级：embedding（fastembed + bge-small-zh）替换 TF-IDF（numpy 余弦，接口不变）
 - [x] 回答引用链接化（点击跳到原文）
 - [ ] 管理后台"修改密码"功能（正规做法，替代手动改库）

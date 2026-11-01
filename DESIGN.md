@@ -136,6 +136,8 @@ The shell is a centered reading column of 56rem (896px) with 24px side padding o
 
 Vertical rhythm: hero sections 80px → 112px; standard sections 56px → 64px; list rows 24px vertical padding; 24px between stacked items. The rhythm is consistent enough that pages feel like continuations of one publication, not separate screens.
 
+Article pages may add a 10rem sticky TOC rail on screens ≥1100px (an inline "目录" disclosure below that width), and a 1px Warm Sand reading-progress rule at the very top of the viewport.
+
 Responsive behavior is type-first: the md breakpoint mainly increases heading sizes, side padding, and section spacing. The navigation wraps to a second row on narrow screens without changing type scale.
 
 ## Elevation & Depth

@@ -156,6 +156,7 @@
     font-weight: 300;
     line-height: 1.25;
     margin: 2.5em 0 0.75em;
+    scroll-margin-top: 6rem;
   }
   .prose-editorial h2 { font-size: 1.625rem; }
   .prose-editorial h3 { font-size: 1.25rem; }
@@ -171,6 +172,7 @@
   .prose-editorial ul,
   .prose-editorial ol { padding-left: 1.5em; margin: 0; }
   .prose-editorial li + li { margin-top: 0.5em; }
+  .prose-editorial li[id] { scroll-margin-top: 6rem; }
   .prose-editorial blockquote {
     margin: 0;
     padding-left: 1.25rem;
