@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "frontend/index.html"
+        ],
+        "createdAt": "2026-11-01T06:42:24.049Z",
+        "reason": "user declined footer change: pre-existing static ICP footer kept as-is by explicit request"
+      }
+    ]
+  }
+}

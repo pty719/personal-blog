@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-01T04:00:23Z",
+  "title": "Design System: yizhiyu的小站",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f9f8f6",
+        "tonalRamp": [
+          "oklch(18% 0.010 60)",
+          "oklch(28% 0.010 60)",
+          "oklch(40% 0.011 60)",
+          "oklch(55% 0.012 60)",
+          "oklch(70% 0.012 60)",
+          "oklch(82% 0.010 60)",
+          "oklch(91% 0.008 60)",
+          "oklch(97.5% 0.006 60)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#1c1c1c",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(52% 0 0)",
+          "oklch(66% 0 0)",
+          "oklch(79% 0 0)",
+          "oklch(90% 0 0)",
+          "oklch(97% 0 0)"
+        ]
+      },
+      "warm-sand": {
+        "role": "primary",
+        "displayName": "Warm Sand",
+        "canonical": "#d4a373",
+        "tonalRamp": [
+          "oklch(28% 0.055 62)",
+          "oklch(40% 0.070 64)",
+          "oklch(52% 0.082 66)",
+          "oklch(63% 0.088 68)",
+          "oklch(72% 0.085 69)",
+          "oklch(81% 0.065 70)",
+          "oklch(89% 0.040 72)",
+          "oklch(96% 0.018 74)"
+        ]
+      },
+      "warm-sand-ink": {
+        "role": "primary",
+        "displayName": "Warm Sand Ink",
+        "canonical": "#8f6036",
+        "tonalRamp": [
+          "oklch(22% 0.045 58)",
+          "oklch(32% 0.060 60)",
+          "oklch(42% 0.072 61)",
+          "oklch(50% 0.078 62)",
+          "oklch(58% 0.075 63)",
+          "oklch(70% 0.060 65)",
+          "oklch(83% 0.038 68)",
+          "oklch(94% 0.016 72)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display Serif",
+        "purpose": "The home hero name only; one per page."
+      },
+      "headline": {
+        "displayName": "Headline Serif",
+        "purpose": "Page titles such as AI 新闻; one per surface."
+      },
+      "title": {
+        "displayName": "Title Serif",
+        "purpose": "Article and news titles, section headings."
+      },
+      "body": {
+        "displayName": "Body Sans",
+        "purpose": "Reading copy at 1.7–2.0 line height."
+      },
+      "label": {
+        "displayName": "Label Sans",
+        "purpose": "Navigation, dates, meta, chips, eyebrows; wide tracking."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "underline-slide",
+        "value": "0.4s ease",
+        "purpose": "Navigation and active-route underline scaling from the right."
+      },
+      {
+        "name": "title-emphasis",
+        "value": "0.5s ease",
+        "purpose": "Article row serif title turning italic on hover."
+      },
+      {
+        "name": "color-shift",
+        "value": "0.15s ease",
+        "purpose": "Button inversion and link/border color changes."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Square outline button; inverts to ink fill on hover. The home hero's sole call to action.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">和 AI 助手聊聊 →</a>",
+      "css": ".ds-btn-primary { display: inline-block; background: transparent; color: var(--color-foreground); border: 1px solid var(--color-foreground); padding: 12px 24px; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.15em; text-decoration: none; border-radius: 0; transition: background-color 0.15s ease, color 0.15s ease; } .ds-btn-primary:hover { background: var(--color-foreground); color: var(--color-background); } .ds-btn-primary:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+    },
+    {
+      "name": "Inline Text Link",
+      "kind": "custom",
+      "description": "Secondary action: sans label with a hairline bottom border that darkens on hover.",
+      "html": "<a class=\"ds-link-inline\" href=\"#\">阅读文章</a>",
+      "css": ".ds-link-inline { display: inline-block; font-family: var(--font-sans); font-size: 0.875rem; letter-spacing: 0.15em; color: var(--color-foreground); text-decoration: none; border-bottom: 1px solid rgba(28, 28, 28, 0.3); padding-bottom: 2px; transition: border-color 0.15s ease; } .ds-link-inline:hover { border-color: var(--color-foreground); } .ds-link-inline:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky masthead on paper with a hairline base; links dim to 60% and draw a 1px underline from the right. The active link is the only Warm Sand text on the site.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-logo\">yizhiyu的小站</span><span class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">文章</a><a class=\"ds-nav-link\" href=\"#\">说说</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">首页</a></span></nav>",
+      "css": ".ds-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; background: var(--color-background); border-bottom: 1px solid rgba(28, 28, 28, 0.1); padding: 20px 24px; } .ds-nav-logo { font-family: var(--font-serif); font-size: 1.125rem; letter-spacing: 0.2em; color: var(--color-foreground); } .ds-nav-links { display: flex; align-items: center; gap: 20px; } .ds-nav-link { position: relative; padding: 2px 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-decoration: none; color: var(--color-foreground); opacity: 0.6; transition: opacity 0.4s ease; } .ds-nav-link::after { content: \"\"; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--color-foreground); transform: scaleX(0); transform-origin: right center; transition: transform 0.4s ease; } .ds-nav-link:hover { opacity: 1; } .ds-nav-link:hover::after, .ds-nav-link--active::after { transform: scaleX(1); transform-origin: left center; } .ds-nav-link--active { opacity: 1; color: var(--color-primary-ink); } .ds-nav-link:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+    },
+    {
+      "name": "Source Chip",
+      "kind": "chip",
+      "refersTo": "source-chip",
+      "description": "Square bordered caption used for news source attribution; reads as a printed annotation, not a tag.",
+      "html": "<span class=\"ds-source-chip\">Hacker News</span>",
+      "css": ".ds-source-chip { display: inline-block; background: transparent; color: rgba(28, 28, 28, 0.4); border: 1px solid rgba(28, 28, 28, 0.2); border-radius: 0; padding: 2px 8px; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; line-height: 1.4; }"
+    },
+    {
+      "name": "Section Header",
+      "kind": "custom",
+      "description": "Magazine section opener: light serif heading left, wide-tracked '全部 →' caption right, hairline beneath.",
+      "html": "<div class=\"ds-section-header\"><h2>最新文章</h2><a href=\"#\">全部 →</a></div>",
+      "css": ".ds-section-header { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28, 28, 28, 0.1); } .ds-section-header h2 { margin: 0; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 300; line-height: 1.2; letter-spacing: -0.01em; color: var(--color-foreground); } .ds-section-header a { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2em; color: rgba(28, 28, 28, 0.6); text-decoration: none; transition: color 0.15s ease; } .ds-section-header a:hover { color: var(--color-foreground); } .ds-section-header a:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+    },
+    {
+      "name": "Article Row",
+      "kind": "card",
+      "description": "Cardless list row: 2px ink rule on the left darkens on hover; the serif title turns italic over 500ms.",
+      "html": "<article class=\"ds-article-row\"><h3>把 RAG 从 TF-IDF 换成 embedding 的一次真实改造</h3><p>切块、向量化、余弦检索，以及为什么 2G 内存选了 bge-small-zh。</p><p class=\"ds-article-meta\">技术 · 1283 次浏览 · 2026-10-28</p></article>",
+      "css": ".ds-article-row { border-left: 2px solid rgba(28, 28, 28, 0.1); padding: 24px 8px 24px 20px; transition: background-color 0.15s ease, border-color 0.15s ease; cursor: pointer; } .ds-article-row:hover { border-left-color: rgba(28, 28, 28, 0.4); background: rgba(28, 28, 28, 0.05); } .ds-article-row h3 { margin: 0; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; line-height: 1.375; letter-spacing: -0.01em; color: var(--color-foreground); transition: font-style 0.5s ease; } .ds-article-row:hover h3 { font-style: italic; } .ds-article-row p { margin: 8px 0 0; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(28, 28, 28, 0.9); } .ds-article-row .ds-article-meta { margin-top: 12px; font-size: 0.875rem; color: rgba(28, 28, 28, 0.4); }"
+    },
+    {
+      "name": "Eyebrow Label",
+      "kind": "custom",
+      "description": "Wide-tracked sans caption above a display heading; the editorial 'kicker'.",
+      "html": "<p class=\"ds-eyebrow\">你好，我是</p>",
+      "css": ".ds-eyebrow { margin: 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.25em; line-height: 1.4; color: rgba(28, 28, 28, 0.4); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Editorial",
+    "overview": "This is a site that earns trust by typesetting, not by decoration. The page behaves like a well-set printed journal read on warm paper: one ink, one paper, one warm accent used like a single editorial mark. Nothing floats, nothing glows, nothing is rounded. Authority comes from the type being set correctly — a serif voice for what the site has to say, a sans voice for the machinery around it — and from the confidence of wide margins and 1px rules.\n\nThe system is deliberately lean because the product is a job-hunting portfolio disguised as a personal blog. A recruiter should read the first screen in seconds; the quietness is what makes the Agent capability (a live assistant, streaming answers, tool calls) feel credible rather than promotional. The editorial restraint is also the engineering argument: the site does not need visual noise to hold attention.\n\nThe interface is mostly hand-set Tailwind typesetting over three tokens, with the navigation and home page serving as the canonical expression. Every surface — public pages, the assistant, login, and the admin console — now follows this system.",
+    "keyCharacteristics": [
+      "Two colors of substance — warm paper (#f9f8f6) and soft ink (#1c1c1c) — plus one warm accent (#d4a373).",
+      "Strictly rectilinear: 0px radius, 1px hairline borders, never a shadow.",
+      "Two type voices: light serif for headings and content titles, sans for navigation, labels, meta, and body.",
+      "Depth through rules, whitespace, and ink opacity — never through elevation.",
+      "Accent is rare: the active navigation item is its only routine home.",
+      "Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8."
+    ],
+    "rules": [
+      {
+        "name": "The One Warm Voice Rule",
+        "body": "Warm Sand and Warm Sand Ink together cover ≤10% of any screen. Text uses Warm Sand Ink (#8f6036); Warm Sand (#d4a373) is reserved for 1px rules and non-text marks. Never use either for body text, large fills, or a second competing accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Ladder Rule",
+        "body": "There are no gray tokens. Secondary and tertiary text is Ink at 90 / 60 / 40 percent; hairlines and tint washes are Ink at 10 / 5 percent. Introducing a slate or gray hex is a system violation.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Voice Rule",
+        "body": "Serif for headings and content titles; sans for navigation, labels, buttons, metadata, and body. Never set a button or label in serif, and never set a heading in sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Zero radius and zero shadow, always. If two surfaces need separation, use a 1px Ink hairline at 10% or more whitespace — never a box-shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do build every new public page from Paper, Ink, and Warm Sand only; keep the accent at or below 10% of the screen.",
+      "Do set headings in the serif stack at light weights and everything functional in the sans stack.",
+      "Do separate sections with 1px Ink/10 hairlines and whitespace instead of cards, shadows, or background changes.",
+      "Do use the ink opacity ladder — 90 / 60 / 40 / 10 percent — for hierarchy; never add a gray token.",
+      "Do keep corners square and hover feedback to color, opacity, and 1px rules.",
+      "Do use 56–112px section spacing and a 56rem reading column so pages feel like one publication."
+    ],
+    "donts": [
+      "Don't introduce #2563eb blue, #e5e7eb gray borders, 8–12px radii, white cards, or colored pill badges. These were the pre-migration pattern; every surface is now Editorial, and this look is anti-reference rather than a second system to extend.",
+      "Don't add box-shadows, elevation, glassmorphism, gradients, or glow effects at any state.",
+      "Don't use Warm Sand for large fills, body text, or more than one competing accent; its rarity is the point.",
+      "Don't use emoji as ornament or iconography on Editorial surfaces (the legacy ⭐ / ✅ / 🔧 style stays with the legacy pages until they are migrated).",
+      "Don't set buttons, labels, or metadata in the serif face, or headings in the sans face.",
+      "Don't wrap Editorial content in rounded cards or dashboard panels; if a block needs separation, reach for a hairline or space."
+    ]
+  }
+}
