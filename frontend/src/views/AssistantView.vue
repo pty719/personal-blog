@@ -259,13 +259,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="page-col">
+  <section class="assistant-shell">
     <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">AI 助手</h2>
     <p class="mt-3 font-sans text-sm text-foreground/70">
       能查站内数据的智能助手——试试问“小站有什么文章？”
     </p>
 
-    <div class="chat-layout mt-6">
+    <div class="assistant-layout mt-6">
       <aside class="chat-sidebar" aria-label="历史会话">
         <button type="button" class="new-chat" :disabled="sending" @click="newChat">新对话</button>
         <ul class="conv-list">
@@ -408,6 +408,27 @@ onMounted(() => {
           </button>
         </form>
       </div>
+
+      <aside class="assistant-aside" aria-label="助手说明">
+        <section class="aside-block">
+          <h3 class="aside-title">能力</h3>
+          <ul class="aside-list">
+            <li><span class="aside-key">检索</span>按语义查找文章片段</li>
+            <li><span class="aside-key">查询</span>读取最近的说说</li>
+            <li><span class="aside-key">记忆</span>长对话自动压缩摘要</li>
+            <li><span class="aside-key">来源</span>回答可点击回到原文</li>
+          </ul>
+        </section>
+        <section class="aside-block">
+          <h3 class="aside-title">使用提示</h3>
+          <p class="aside-note">Enter 发送，Shift+Enter 换行。</p>
+          <p class="aside-note">回答由大模型生成，重要信息请自行核实。</p>
+        </section>
+        <section class="aside-block">
+          <h3 class="aside-title">会话</h3>
+          <p class="aside-note">对话记录保存在站内；历史列表只存在当前浏览器。</p>
+        </section>
+      </aside>
     </div>
 
     <!-- 生成式 AI 服务合规提示（配合备案要求） -->
@@ -434,18 +455,65 @@ onMounted(() => {
   color: var(--color-foreground);
 }
 
-.chat-layout {
+.assistant-shell { max-width: 72rem; margin: 0 auto; }
+
+.assistant-layout {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: 12rem minmax(0, 1fr);
+  grid-template-columns: 12rem minmax(0, 1fr) 15rem;
+  grid-template-areas: "history chat aside";
   align-items: start;
 }
-.chat-main { min-width: 0; }
 
 .chat-sidebar {
+  grid-area: history;
   border-top: 1px solid rgba(28, 28, 28, 0.1);
   padding-top: 0.75rem;
 }
+.chat-main {
+  grid-area: chat;
+  min-width: 0;
+}
+
+.assistant-aside {
+  grid-area: aside;
+  border-top: 1px solid rgba(28, 28, 28, 0.1);
+  padding-top: 0.75rem;
+}
+.aside-block + .aside-block {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(28, 28, 28, 0.08);
+}
+.aside-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0.6rem;
+}
+.aside-list { list-style: none; }
+.aside-list li {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: rgba(28, 28, 28, 0.8);
+}
+.aside-key {
+  flex: 0 0 2.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: rgba(28, 28, 28, 0.7);
+}
+.aside-note {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: rgba(28, 28, 28, 0.7);
+}
+.aside-note + .aside-note { margin-top: 0.5rem; }
 .new-chat {
   width: 100%;
   padding: 0.55rem 0.75rem;
@@ -522,8 +590,22 @@ onMounted(() => {
   color: rgba(28, 28, 28, 0.7);
 }
 
+@media (max-width: 1100px) {
+  .assistant-layout {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    grid-template-areas: "history chat" "aside aside";
+  }
+  .assistant-aside {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+  }
+  .aside-block + .aside-block { margin-top: 0; padding-top: 0; border-top: 0; }
+}
+
 @media (max-width: 899px) {
-  .chat-layout { display: block; }
+  .assistant-layout { display: block; }
   .chat-sidebar {
     border-top: 0;
     padding-top: 0;
@@ -539,5 +621,11 @@ onMounted(() => {
   .conv-row { flex: 0 0 auto; min-width: 10rem; }
   .new-chat { width: auto; display: inline-block; margin-bottom: 0.5rem; }
   .conv-empty { margin-top: 0; }
+  .assistant-aside { display: block; margin-top: 1.5rem; }
+  .aside-block + .aside-block {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(28, 28, 28, 0.08);
+  }
 }
 </style>

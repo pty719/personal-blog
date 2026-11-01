@@ -57,7 +57,7 @@ const menu = [
 
   <!-- 路由出口：当前 URL 对应的页面组件渲染在这里（内容栏居中对称） -->
   <main id="main-content" tabindex="-1" class="px-6 md:px-12 pt-12 md:pt-16 pb-24 md:pb-32">
-    <div class="max-w-4xl mx-auto min-h-[calc(100vh-12rem)]">
+    <div :class="[route.meta.wide ? 'max-w-6xl' : 'max-w-4xl', 'mx-auto min-h-[calc(100vh-12rem)]']">
       <router-view />
     </div>
   </main>

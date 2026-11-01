@@ -132,7 +132,7 @@ A single warm neutral pair with one restrained accent; the palette's whole chara
 
 ## Layout
 
-The shell is a centered reading column of 56rem (896px) with 24px side padding on mobile and 48px from the md breakpoint (768px). Wide editorial pages may opt out to 72rem (1152px) — the AI 新闻 page does; the navigation bar uses the wide width even when the content column is narrow. Sections stack vertically and are separated by 1px Ink/10 rules rather than by cards.
+The shell is a centered reading column of 56rem (896px) with 24px side padding on mobile and 48px from the md breakpoint (768px). Wide editorial pages may opt out to 72rem (1152px) — the AI 新闻 page and the assistant workspace do; the assistant adds a 12rem history rail and a 15rem capability rail around the chat on wide screens. The navigation bar uses the wide width even when the content column is narrow. Sections stack vertically and are separated by 1px Ink/10 rules rather than by cards.
 
 Vertical rhythm: hero sections 80px → 112px; standard sections 56px → 64px; list rows 24px vertical padding; 24px between stacked items. The rhythm is consistent enough that pages feel like continuations of one publication, not separate screens.
 
