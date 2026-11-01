@@ -15,7 +15,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from .jobs.news_fetcher import fetch_ai_news
 from .jobs.friend_monitor import check_all_friends
 from .auth import router as auth_router
-from .routers import articles, moments, friends, projects, assistants, ai_news
+from .routers import articles, moments, friends, projects, assistants, ai_news, stats
 from .services.rag import build_index
 
 
@@ -52,6 +52,7 @@ app.include_router(friends.router)
 app.include_router(projects.router)
 app.include_router(assistants.router)
 app.include_router(ai_news.router)
+app.include_router(stats.router)
 
 @app.get("/health")
 @app.get("/api/health")

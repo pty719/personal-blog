@@ -5,6 +5,19 @@ import request from '../api/request'
 
 const router = useRouter()
 
+// ---------- 站点概览 ----------
+const stats = ref(null)
+const statsError = ref('')
+
+async function fetchStats() {
+  try {
+    stats.value = await request.get('/stats/overview')
+    statsError.value = ''
+  } catch (e) {
+    statsError.value = '概览加载失败：' + (e.response?.data?.detail || e.message)
+  }
+}
+
 // =====================================================================
 // 通用模式：每个资源 = 一组表单字段 + 一个列表 + 增删函数
 // 文章 / 说说 / 友链 / 项目 都是同一套套路，只是字段不同
@@ -165,6 +178,47 @@ const friendUrl = ref('')
 const friendDesc = ref('')
 const friendMsg = ref('')
 const friends = ref([])
+const checkingAll = ref(false)
+const checkingId = ref(null)
+const friendCheckMsg = ref('')
+
+function formatCheck(value) {
+  if (!value) return '尚未检测'
+  return value.replace('T', ' ').slice(0, 16)
+}
+
+async function checkAllFriends() {
+  if (checkingAll.value) return
+  checkingAll.value = true
+  friendCheckMsg.value = ''
+  try {
+    const data = await request.post('/friends/check')
+    friendCheckMsg.value = `✅ 巡检完成：共 ${data.total} 个，正常 ${data.active}，失效 ${data.inactive}`
+    fetchFriends()
+    fetchStats()
+  } catch (e) {
+    friendCheckMsg.value = '巡检失败：' + (e.response?.data?.detail || e.message)
+  } finally {
+    checkingAll.value = false
+  }
+}
+
+async function checkFriend(id) {
+  if (checkingId.value) return
+  checkingId.value = id
+  friendCheckMsg.value = ''
+  try {
+    const updated = await request.post(`/friends/${id}/check`)
+    const index = friends.value.findIndex((friend) => friend.id === id)
+    if (index >= 0) friends.value[index] = updated
+    friendCheckMsg.value = updated.is_active ? '✅ 友链正常' : '⚠️ 友链可能失效'
+    fetchStats()
+  } catch (e) {
+    friendCheckMsg.value = '检测失败：' + (e.response?.data?.detail || e.message)
+  } finally {
+    checkingId.value = null
+  }
+}
 
 async function addFriend() {
   if (!friendName.value.trim() || !friendUrl.value.trim()) {
@@ -253,6 +307,7 @@ async function delProject(id) {
 
 // ---------- 页面加载：拉全部列表 ----------
 onMounted(() => {
+  fetchStats()
   fetchArticles()
   fetchMoments()
   fetchFriends()
@@ -273,6 +328,33 @@ function logout() {
       <h2>管理后台</h2>
       <button @click="logout" class="btn-danger">退出登录</button>
     </div>
+
+    <!-- ══════════ 站点概览 ══════════ -->
+    <section class="card">
+      <h3>站点概览</h3>
+      <p v-if="statsError" class="err" role="alert">{{ statsError }}</p>
+      <template v-else-if="stats">
+        <dl class="stats-grid">
+          <div><dt>文章</dt><dd>{{ stats.articles }}</dd></div>
+          <div><dt>说说</dt><dd>{{ stats.moments }}</dd></div>
+          <div><dt>友链</dt><dd>{{ stats.active_friends }} / {{ stats.friends }}</dd></div>
+          <div><dt>项目</dt><dd>{{ stats.projects }}</dd></div>
+          <div><dt>总浏览</dt><dd>{{ stats.total_views }}</dd></div>
+          <div><dt>AI 会话</dt><dd>{{ stats.conversations }}</dd></div>
+          <div><dt>AI 新闻</dt><dd>{{ stats.ai_news }}</dd></div>
+        </dl>
+        <div v-if="stats.top_articles && stats.top_articles.length" class="stats-top">
+          <p class="stats-label">浏览量 Top</p>
+          <ul class="list">
+            <li v-for="article in stats.top_articles" :key="article.id" class="row">
+              <div class="row-title">{{ article.title }}</div>
+              <div class="row-meta">{{ article.views }} 次</div>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <p v-else class="empty">加载中…</p>
+    </section>
 
     <!-- ══════════ 文章管理 ══════════ -->
     <section class="card">
@@ -375,15 +457,30 @@ function logout() {
     </section>
 
     <section class="card">
-      <h3>友链管理（{{ friends.length }} 个）</h3>
+      <div class="card-head">
+        <h3>友链管理（{{ friends.length }} 个）</h3>
+        <button class="btn-primary btn-sm" :disabled="checkingAll" @click="checkAllFriends">
+          {{ checkingAll ? '巡检中…' : '巡检全部' }}
+        </button>
+      </div>
+      <p v-if="friendCheckMsg" :class="friendCheckMsg.startsWith('✅') ? 'ok' : 'err'" :role="friendCheckMsg.startsWith('✅') ? 'status' : 'alert'">{{ friendCheckMsg }}</p>
       <p v-if="friends.length === 0" class="empty">暂无友链</p>
       <ul v-else class="list">
         <li v-for="friend in friends" :key="friend.id" class="row">
           <div>
             <div class="row-title">{{ friend.name }}</div>
             <div class="row-meta">{{ friend.url }} · {{ friend.description }}</div>
+            <div class="row-meta">
+              <span :class="friend.is_active ? 'status-ok' : 'status-warn'">{{ friend.is_active ? '正常' : '可能失效' }}</span>
+              · 上次检测：{{ formatCheck(friend.last_check) }}
+            </div>
           </div>
-          <button @click="delFriend(friend.id)" class="btn-del">删除</button>
+          <div class="row-actions">
+            <button class="btn-del" :disabled="checkingId === friend.id" @click="checkFriend(friend.id)">
+              {{ checkingId === friend.id ? '检测中…' : '检测' }}
+            </button>
+            <button @click="delFriend(friend.id)" class="btn-del">删除</button>
+          </div>
         </li>
       </ul>
     </section>
@@ -430,6 +527,35 @@ function logout() {
 
 .card { border-top: 1px solid rgba(28, 28, 28, 0.1); padding: 1.75rem 0; }
 .card h3 { margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; }
+
+.card-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  margin-bottom: 1rem;
+}
+.card-head h3 { margin-bottom: 0; }
+
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: 1rem;
+}
+.stats-grid dt {
+  font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.12em;
+  color: rgba(28, 28, 28, 0.7);
+}
+.stats-grid dd {
+  margin-top: 0.25rem; font-family: var(--font-serif); font-size: 1.5rem;
+  font-weight: 300; line-height: 1.2;
+}
+.stats-top {
+  margin-top: 1.5rem; padding-top: 1rem;
+  border-top: 1px solid rgba(28, 28, 28, 0.08);
+}
+.stats-label {
+  font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.12em;
+  color: rgba(28, 28, 28, 0.7); margin-bottom: 0.25rem;
+}
+.status-ok { color: rgba(28, 28, 28, 0.8); }
+.status-warn { color: rgba(28, 28, 28, 0.8); font-weight: 500; }
+.row-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
 
 .input,
 .textarea {

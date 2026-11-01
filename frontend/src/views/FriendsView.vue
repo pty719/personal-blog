@@ -8,6 +8,11 @@ const friends = ref([])
 const loading = ref(true)
 const error = ref('')
 
+function formatCheck(value) {
+  if (!value) return '尚未检测'
+  return value.replace('T', ' ').slice(0, 16)
+}
+
 onMounted(async () => {
   try {
     friends.value = await apiGet('/api/friends')
@@ -22,6 +27,9 @@ onMounted(async () => {
 <template>
   <section>
     <SectionHeader title="友链列表" />
+    <p class="mt-3 font-sans text-sm text-foreground/70">
+      每天 8:00 自动巡检一次，下面是最近一次结果。
+    </p>
 
     <StateBlock
       v-if="loading || error || friends.length === 0"
@@ -59,9 +67,10 @@ onMounted(async () => {
             <span v-if="friend.description" class="block font-sans text-sm text-foreground/70 mt-0.5 truncate">
               {{ friend.description }}
             </span>
-          </span>
-          <span v-if="!friend.is_active" class="ml-auto shrink-0 font-sans text-xs tracking-[0.1em] text-foreground/70">
-            可能失效
+            <span class="block font-sans text-xs tracking-[0.08em] text-foreground/70 mt-1">
+              {{ friend.is_active ? '链接正常' : '可能失效' }}
+              <template v-if="friend.last_check"> · 上次检测 {{ formatCheck(friend.last_check) }}</template>
+            </span>
           </span>
         </a>
       </li>

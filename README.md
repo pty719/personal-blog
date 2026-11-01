@@ -201,6 +201,8 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 - [x] **AI 助手**：SSE + DeepSeek + ReAct + 工具 + 会话记忆，公网 http://***REMOVED-ROTATED***/ai-assistant
 - [x] **文章 AI 摘要**：发布时自动生成（LLM 嵌入业务管道）
 - [x] **友链监控 Agent**：APScheduler 定时巡检（HEAD 探测 + 失效标记）
+- [x] 友链巡检面板：公开页展示状态与最近检测时间；后台支持单个/全量重检
+- [x] 后台站点概览：内容数量、总浏览、Top 文章、AI 会话数
 - [x] **限流防护**：IP 限流 + 会话轮数 + 消息长度 + event_stream 兜底
 - [x] **RAG 知识库"问博主"**：切块 + TF-IDF 检索 + 增强回答
 - [x] AI 助手增强：摘要压缩（>20 条触发，LLM 滚动摘要，role=summary 存储）
