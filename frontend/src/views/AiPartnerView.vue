@@ -15,13 +15,13 @@ const features = [
 <template>
   <section class="page-col">
     <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">AI 伴侣</h2>
-    <p class="mt-3 font-sans text-sm text-foreground/60">
+    <p class="mt-3 font-sans text-sm text-foreground/70">
       一个会聊天的 AI 伙伴——自定义人设、记住你们聊过的每句话
     </p>
 
     <div class="mt-10 pt-6 border-t border-foreground/10">
       <div class="flex flex-wrap items-center gap-3">
-        <span class="inline-block px-2 py-0.5 border border-foreground/20 font-sans text-xs tracking-[0.15em] text-foreground/60">
+        <span class="inline-block px-2 py-0.5 border border-foreground/20 font-sans text-xs tracking-[0.15em] text-foreground/70">
           已交付项目
         </span>
         <h3 class="font-serif text-xl md:text-2xl font-normal">AI 智能伴侣</h3>

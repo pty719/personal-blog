@@ -125,7 +125,7 @@ function scrollToBottom() {
 <template>
   <section class="page-col">
     <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">AI 助手</h2>
-    <p class="mt-3 font-sans text-sm text-foreground/60">
+    <p class="mt-3 font-sans text-sm text-foreground/70">
       能查站内数据的智能助手——试试问“小站有什么文章？”
     </p>
 
@@ -138,7 +138,7 @@ function scrollToBottom() {
         aria-label="对话记录"
       >
         <div v-if="messages.length === 0" class="py-10 text-center">
-          <p class="font-sans text-sm text-foreground/60">问点什么吧～</p>
+          <p class="font-sans text-sm text-foreground/70">问点什么吧～</p>
           <div class="mt-5 flex flex-wrap justify-center gap-2">
             <button
               v-for="s in suggestions"
@@ -166,7 +166,7 @@ function scrollToBottom() {
               <p
                 v-for="(t, j) in m.tools"
                 :key="j"
-                class="font-sans text-xs tracking-[0.08em] text-foreground/60"
+                class="font-sans text-xs tracking-[0.08em] text-foreground/70"
               >
                 {{ t }}
               </p>
@@ -178,14 +178,14 @@ function scrollToBottom() {
                 class="prose-editorial prose-chat"
                 v-html="renderChatMarkdown(m.content)"
               ></div>
-              <p v-else-if="sending && i === messages.length - 1" class="font-sans text-sm text-foreground/60">
+              <p v-else-if="sending && i === messages.length - 1" class="font-sans text-sm text-foreground/70">
                 思考中…
               </p>
             </template>
             <span v-else class="font-sans text-base leading-8 whitespace-pre-wrap break-words">{{ m.content }}</span>
 
             <div v-if="m.sources && m.sources.length" class="mt-4 pt-3 border-t border-foreground/10">
-              <p class="font-sans text-xs tracking-[0.12em] text-foreground/60 mb-2">来源</p>
+              <p class="font-sans text-xs tracking-[0.12em] text-foreground/70 mb-2">来源</p>
               <ul class="list-none space-y-1">
                 <li v-for="s in m.sources" :key="s.id">
                   <router-link
@@ -235,7 +235,7 @@ function scrollToBottom() {
     </div>
 
     <!-- 生成式 AI 服务合规提示（配合备案要求） -->
-    <p class="mt-4 font-sans text-xs leading-6 text-foreground/60 text-center">
+    <p class="mt-4 font-sans text-xs leading-6 text-foreground/70 text-center">
       AI 助手回答由大语言模型生成，仅供参考，请对重要信息自行判断核实；为保障服务质量，对话记录会保存在站内。
     </p>
   </section>

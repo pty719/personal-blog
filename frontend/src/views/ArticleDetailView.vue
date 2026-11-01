@@ -31,7 +31,9 @@ onMounted(async () => {
         <h1 class="font-serif font-light tracking-tight text-3xl md:text-4xl leading-[1.15]">
           {{ article.title }}
         </h1>
-        <p class="font-sans text-xs md:text-sm tracking-[0.12em] text-foreground/60 mt-5">
+        <p class="font-sans text-xs md:text-sm tracking-[0.12em] text-foreground/70 mt-5">
+          <span class="folio">NO. {{ String(article.id).padStart(2, '0') }}</span>
+          <span class="mx-2 text-foreground/20">/</span>
           {{ article.category }}
           <template v-if="article.tags"> · {{ article.tags }}</template>
           · {{ article.views }} 次浏览 · {{ (article.created_at || '').slice(0, 10) }}
@@ -40,7 +42,7 @@ onMounted(async () => {
 
       <div
         v-if="article.summary"
-        class="mt-8 pt-5 border-t border-foreground/20 font-serif italic text-lg leading-8 text-foreground/80"
+        class="standfirst mt-8 pt-5 border-t border-foreground/20 font-serif italic text-lg leading-8 text-foreground/80"
       >
         {{ article.summary }}
       </div>
@@ -58,3 +60,28 @@ onMounted(async () => {
     </article>
   </div>
 </template>
+
+<style scoped>
+/* 刊物页码：真实文章 id，不是装饰序号 */
+.folio {
+  font-family: var(--font-serif);
+  color: var(--color-primary-ink);
+  letter-spacing: 0.08em;
+}
+
+/* 导语大引号：贴在摘要左上角，像杂志的开口引文 */
+.standfirst { position: relative; }
+.standfirst::before {
+  content: "“";
+  position: absolute;
+  left: -1.4rem;
+  top: -0.35rem;
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--color-primary);
+}
+@media (max-width: 767px) {
+  .standfirst::before { display: none; }
+}
+</style>

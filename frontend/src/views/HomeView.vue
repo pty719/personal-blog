@@ -60,28 +60,31 @@ onMounted(() => {
 <template>
   <div class="max-w-6xl mx-auto px-6 md:px-12">
     <!-- ========== 博主介绍（hero）========== -->
-    <section class="py-20 md:py-28 border-b border-foreground/10">
-      <p class="font-sans text-xs md:text-sm text-foreground/60 tracking-[0.25em]">你好，我是</p>
-      <h1 class="font-serif font-light tracking-tight text-5xl md:text-6xl leading-[1.05] mt-4">
-        yizhiyu
-      </h1>
-      <p class="font-sans text-base md:text-lg text-foreground/90 max-w-xl mt-6 leading-8">
-        智能体应用开发者（求职中）—— 用 Python 构建会思考、能检索、懂记忆的 AI 应用。
-        这个站点的 AI 助手能调用站内工具、RAG 检索知识库、记住对话上下文。
-      </p>
-      <div class="mt-10 flex flex-wrap items-center gap-6">
-        <router-link
-          to="/ai-assistant"
-          class="inline-block border border-foreground px-6 py-3 font-sans text-sm tracking-[0.15em] hover:bg-foreground hover:text-background transition-colors"
-        >
-          和 AI 助手聊聊 →
-        </router-link>
-        <router-link
-          to="/articles"
-          class="font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
-        >
-          阅读文章
-        </router-link>
+    <section class="relative overflow-hidden py-20 md:py-28 border-b border-foreground/10">
+      <span class="hero-mark" aria-hidden="true">Y</span>
+      <div class="relative z-10">
+        <p class="font-sans text-xs md:text-sm text-foreground/70 tracking-[0.25em]">你好，我是</p>
+        <h1 class="font-serif font-light tracking-tight text-5xl md:text-6xl leading-[1.05] mt-4">
+          yizhiyu
+        </h1>
+        <p class="font-sans text-base md:text-lg text-foreground/90 max-w-xl mt-6 leading-8">
+          智能体应用开发者（求职中）—— 用 Python 构建会思考、能检索、懂记忆的 AI 应用。
+          这个站点的 AI 助手能调用站内工具、RAG 检索知识库、记住对话上下文。
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-6">
+          <router-link
+            to="/ai-assistant"
+            class="inline-block border border-foreground px-6 py-3 font-sans text-sm tracking-[0.15em] hover:bg-foreground hover:text-background transition-colors"
+          >
+            和 AI 助手聊聊 →
+          </router-link>
+          <router-link
+            to="/articles"
+            class="font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+          >
+            阅读文章
+          </router-link>
+        </div>
       </div>
     </section>
 
@@ -135,7 +138,7 @@ onMounted(() => {
           <p class="font-sans text-sm md:text-base leading-7 text-foreground/90 whitespace-pre-wrap">
             {{ m.content }}
           </p>
-          <p class="font-sans text-xs text-foreground/60 mt-2">
+          <p class="font-sans text-xs text-foreground/70 mt-2">
             {{ (m.created_at || '').slice(0, 10) }}
           </p>
         </div>
@@ -145,7 +148,7 @@ onMounted(() => {
     <!-- ========== AI 新闻速递 ========== -->
     <section class="py-14 md:py-16">
       <SectionHeader title="AI 新闻速递" to="/ai-news" />
-      <p class="font-sans text-sm text-foreground/60 mt-3">
+      <p class="font-sans text-sm text-foreground/70 mt-3">
         自动采集的 AI 领域最新资讯（每 6 小时更新）
       </p>
       <StateBlock
@@ -168,10 +171,10 @@ onMounted(() => {
             </h3>
             <SourceChip :label="n.source" class="shrink-0" />
           </div>
-          <p v-if="n.summary" class="font-sans text-sm text-foreground/60 leading-6 mt-1 line-clamp-2">
+          <p v-if="n.summary" class="font-sans text-sm text-foreground/70 leading-6 mt-1 line-clamp-2">
             {{ n.summary }}
           </p>
-          <p class="font-sans text-xs text-foreground/60 mt-2">
+          <p class="font-sans text-xs text-foreground/70 mt-2">
             {{ (n.published_at || '').slice(0, 10) }}
           </p>
         </a>
@@ -179,3 +182,25 @@ onMounted(() => {
     </section>
   </div>
 </template>
+
+<style scoped>
+/* 超大字：作为纸面上的水印，不承载信息；裁切在 hero 右缘 */
+.hero-mark {
+  position: absolute;
+  top: -0.32em;
+  right: -0.06em;
+  z-index: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(15rem, 30vw, 28rem);
+  line-height: 0.8;
+  color: var(--color-primary);
+  opacity: 0.16;
+  pointer-events: none;
+  user-select: none;
+}
+@media (max-width: 767px) {
+  .hero-mark { top: -0.18em; font-size: 14rem; opacity: 0.12; }
+}
+</style>

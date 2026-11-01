@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { apiGet } from '../lib/publicApi'
+import SectionHeader from '../components/editorial/SectionHeader.vue'
 import StateBlock from '../components/editorial/StateBlock.vue'
 import ProjectRow from '../components/editorial/ProjectRow.vue'
 
@@ -21,9 +22,7 @@ onMounted(async () => {
 
 <template>
   <section>
-    <div class="pb-5 border-b border-foreground/10">
-      <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">项目列表</h2>
-    </div>
+    <SectionHeader title="项目列表" />
 
     <StateBlock
       v-if="loading || error || projects.length === 0"

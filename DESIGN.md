@@ -65,7 +65,7 @@ components:
     textColor: "{colors.warm-sand-ink}"
   source-chip:
     backgroundColor: "transparent"
-    textColor: "rgba(28, 28, 28, 0.4)"
+    textColor: "rgba(28, 28, 28, 0.7)"
     typography: "{typography.label}"
     rounded: "{rounded.none}"
     padding: "2px 8px"
@@ -89,6 +89,7 @@ The interface is mostly hand-set Tailwind typesetting over three tokens, with th
 - Two type voices: light serif for headings and content titles, sans for navigation, labels, meta, and body.
 - Depth through rules, whitespace, and ink opacity — never through elevation.
 - Accent is rare: the active navigation item is its only routine home.
+- A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.
 - Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8.
 
 ## Colors
@@ -106,7 +107,7 @@ A single warm neutral pair with one restrained accent; the palette's whole chara
 ### Named Rules
 **The One Warm Voice Rule.** Warm Sand and Warm Sand Ink together cover ≤10% of any screen. Text uses Warm Sand Ink (#8f6036); Warm Sand (#d4a373) is reserved for 1px rules and non-text marks. Never use either for body text, large fills, or a second competing accent.
 
-**The Ink Ladder Rule.** There are no gray tokens. Secondary and tertiary text is Ink at 90 / 60 / 40 percent; hairlines and tint washes are Ink at 10 / 5 percent. Introducing a slate or gray hex is a system violation.
+**The Ink Ladder Rule.** There are no gray tokens. Secondary and tertiary text is Ink at 90 / 70 / 40 percent; hairlines and tint washes are Ink at 10 / 5 percent. Introducing a slate or gray hex is a system violation.
 
 ## Typography
 
@@ -154,7 +155,7 @@ Strictly rectilinear. Every corner is square (0px); there are no pills, no round
 - **Secondary / Ghost:** text links carry a 1px bottom border at Ink/30 instead of a box.
 
 ### Chips
-- **Source chip:** square, transparent fill, 1px Ink/20 border, Ink/40 label text, 2px 8px padding, tracking 0.15em. Used for news source attribution; it reads as a printed caption, not a tag.
+- **Source chip:** square, transparent fill, 1px Ink/20 border, Ink/70 label text, 2px 8px padding, tracking 0.15em. Used for news source attribution; it reads as a printed caption, not a tag.
 
 ### Cards / Containers
 - **No cards.** Editorial surfaces never wrap content in cards. Sections are separated by 1px Ink/10 rules and whitespace. This absence is deliberate: a card would re-introduce the boxed, dashboard-like feel the system rejects.
@@ -165,14 +166,20 @@ No Editorial input pattern exists yet. New inputs should follow the Flat + hairl
 ### Navigation
 - Sticky at the top, Paper fill, 1px Ink/10 bottom border, 20–24px vertical padding.
 - **Logo:** serif, normal weight, 1.125–1.25rem, tracking 0.2em — the site name as a masthead.
-- **Links:** sans label, 500 weight, Ink at 60% opacity at rest; full Ink on hover. An underline scales in from the right over 400ms. The active route is the only place Warm Sand appears, as colored text.
+- **Links:** sans label, 500 weight, Ink at 70% opacity at rest; full Ink on hover. An underline scales in from the right over 400ms. The active route is the only place Warm Sand appears, as colored text.
 - **Mobile:** wraps to two rows at narrow widths; type scale and states stay identical.
 
 ### Signature: Section Header
-The home page's repeating rhythm: a light serif h2 on the left and a right-aligned sans "全部 →" caption at Ink/60 with 0.2em tracking, sitting above a hairline. It behaves like a magazine section opener.
+The home page's repeating rhythm: a 2.5rem Warm Sand rule (1.5rem on mobile) before a light serif h2, with a right-aligned sans caption or "全部 →" link at Ink/60 and 0.2em tracking, sitting above a hairline. It behaves like a magazine section opener.
 
 ### Signature: Article Row
-Article lists are rows, not cards: a 2px left rule at Ink/10 that darkens to Ink/40 on hover, a 5% Ink wash, 24px vertical padding, and 20–32px left padding. The serif title turns italic over 500ms on hover — the system's one expressive gesture.
+Article lists are rows, not cards: a 2px left rule at Ink/10 that darkens to Ink/40 on hover, a 5% Ink wash, 24px vertical padding, and 20–32px left padding. On hover a Warm Sand marker band sweeps across the title over 450ms — the system's one expressive gesture.
+
+### Signature: Hero Mark
+An oversized italic serif "Y" (clamp 15–28rem) sits at the hero's right edge in Warm Sand at 16% opacity and is cropped by the section. It is a watermark: `aria-hidden`, pointer-events none, never content. On mobile it drops to 14rem at 12%.
+
+### Signature: Article Folio & Standfirst
+Article detail opens with a real folio ("NO. 09") set in Warm Sand Ink, and the summary is an italic serif standfirst with a 2.5rem Warm Sand opening quote in the left margin (hidden on mobile).
 
 ## Do's and Don'ts
 
@@ -183,6 +190,7 @@ Article lists are rows, not cards: a 2px left rule at Ink/10 that darkens to Ink
 - **Do** use the ink opacity ladder — 90 / 60 / 40 / 10 percent — for hierarchy; never add a gray token.
 - **Do** keep corners square and hover feedback to color, opacity, and 1px rules.
 - **Do** use Warm Sand Ink (#8f6036) whenever the warm accent carries text; #d4a373 is for 1px rules and non-text marks only.
+- **Do** build graphics from type and paper — grain, 1px Warm Sand rules, oversized serif marks, marker sweeps — rather than imagery or effects.
 - **Do** use 56–112px section spacing and a 56rem reading column so pages feel like one publication.
 
 ### Don't:

@@ -133,7 +133,7 @@
       "refersTo": "nav-link",
       "description": "Sticky masthead on paper with a hairline base; links dim to 60% and draw a 1px underline from the right. The active link is the only Warm Sand text on the site.",
       "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-logo\">yizhiyu的小站</span><span class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"#\">文章</a><a class=\"ds-nav-link\" href=\"#\">说说</a><a class=\"ds-nav-link ds-nav-link--active\" href=\"#\">首页</a></span></nav>",
-      "css": ".ds-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; background: var(--color-background); border-bottom: 1px solid rgba(28, 28, 28, 0.1); padding: 20px 24px; } .ds-nav-logo { font-family: var(--font-serif); font-size: 1.125rem; letter-spacing: 0.2em; color: var(--color-foreground); } .ds-nav-links { display: flex; align-items: center; gap: 20px; } .ds-nav-link { position: relative; padding: 2px 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-decoration: none; color: var(--color-foreground); opacity: 0.6; transition: opacity 0.4s ease; } .ds-nav-link::after { content: \"\"; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--color-foreground); transform: scaleX(0); transform-origin: right center; transition: transform 0.4s ease; } .ds-nav-link:hover { opacity: 1; } .ds-nav-link:hover::after, .ds-nav-link--active::after { transform: scaleX(1); transform-origin: left center; } .ds-nav-link--active { opacity: 1; color: var(--color-primary-ink); } .ds-nav-link:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+      "css": ".ds-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; background: var(--color-background); border-bottom: 1px solid rgba(28, 28, 28, 0.1); padding: 20px 24px; } .ds-nav-logo { font-family: var(--font-serif); font-size: 1.125rem; letter-spacing: 0.2em; color: var(--color-foreground); } .ds-nav-links { display: flex; align-items: center; gap: 20px; } .ds-nav-link { position: relative; padding: 2px 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-decoration: none; color: var(--color-foreground); opacity: 0.7; transition: opacity 0.4s ease; } .ds-nav-link::after { content: \"\"; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--color-foreground); transform: scaleX(0); transform-origin: right center; transition: transform 0.4s ease; } .ds-nav-link:hover { opacity: 1; } .ds-nav-link:hover::after, .ds-nav-link--active::after { transform: scaleX(1); transform-origin: left center; } .ds-nav-link--active { opacity: 1; color: var(--color-primary-ink); } .ds-nav-link:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
     },
     {
       "name": "Source Chip",
@@ -141,28 +141,35 @@
       "refersTo": "source-chip",
       "description": "Square bordered caption used for news source attribution; reads as a printed annotation, not a tag.",
       "html": "<span class=\"ds-source-chip\">Hacker News</span>",
-      "css": ".ds-source-chip { display: inline-block; background: transparent; color: rgba(28, 28, 28, 0.4); border: 1px solid rgba(28, 28, 28, 0.2); border-radius: 0; padding: 2px 8px; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; line-height: 1.4; }"
+      "css": ".ds-source-chip { display: inline-block; background: transparent; color: rgba(28, 28, 28, 0.7); border: 1px solid rgba(28, 28, 28, 0.2); border-radius: 0; padding: 2px 8px; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; line-height: 1.4; }"
     },
     {
       "name": "Section Header",
       "kind": "custom",
       "description": "Magazine section opener: light serif heading left, wide-tracked '全部 →' caption right, hairline beneath.",
-      "html": "<div class=\"ds-section-header\"><h2>最新文章</h2><a href=\"#\">全部 →</a></div>",
-      "css": ".ds-section-header { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28, 28, 28, 0.1); } .ds-section-header h2 { margin: 0; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 300; line-height: 1.2; letter-spacing: -0.01em; color: var(--color-foreground); } .ds-section-header a { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2em; color: rgba(28, 28, 28, 0.6); text-decoration: none; transition: color 0.15s ease; } .ds-section-header a:hover { color: var(--color-foreground); } .ds-section-header a:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
+      "html": "<div class=\"ds-section-header\"><div class=\"ds-section-title\"><span class=\"ds-section-mark\" aria-hidden=\"true\"></span><h2>最新文章</h2></div><a href=\"#\">全部 →</a></div>",
+      "css": ".ds-section-title { display: flex; align-items: baseline; gap: 1rem; min-width: 0; } .ds-section-mark { display: block; width: 2.5rem; height: 1px; flex-shrink: 0; background: var(--color-primary); } .ds-section-header { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28, 28, 28, 0.1); } .ds-section-header h2 { margin: 0; font-family: var(--font-serif); font-size: 1.5rem; font-weight: 300; line-height: 1.2; letter-spacing: -0.01em; color: var(--color-foreground); } .ds-section-header a { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.2em; color: rgba(28, 28, 28, 0.7); text-decoration: none; transition: color 0.15s ease; } .ds-section-header a:hover { color: var(--color-foreground); } .ds-section-header a:focus-visible { outline: 1px solid var(--color-foreground); outline-offset: 3px; }"
     },
     {
       "name": "Article Row",
       "kind": "card",
-      "description": "Cardless list row: 2px ink rule on the left darkens on hover; the serif title turns italic over 500ms.",
-      "html": "<article class=\"ds-article-row\"><h3>把 RAG 从 TF-IDF 换成 embedding 的一次真实改造</h3><p>切块、向量化、余弦检索，以及为什么 2G 内存选了 bge-small-zh。</p><p class=\"ds-article-meta\">技术 · 1283 次浏览 · 2026-10-28</p></article>",
-      "css": ".ds-article-row { border-left: 2px solid rgba(28, 28, 28, 0.1); padding: 24px 8px 24px 20px; transition: background-color 0.15s ease, border-color 0.15s ease; cursor: pointer; } .ds-article-row:hover { border-left-color: rgba(28, 28, 28, 0.4); background: rgba(28, 28, 28, 0.05); } .ds-article-row h3 { margin: 0; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; line-height: 1.375; letter-spacing: -0.01em; color: var(--color-foreground); transition: font-style 0.5s ease; } .ds-article-row:hover h3 { font-style: italic; } .ds-article-row p { margin: 8px 0 0; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(28, 28, 28, 0.9); } .ds-article-row .ds-article-meta { margin-top: 12px; font-size: 0.875rem; color: rgba(28, 28, 28, 0.4); }"
+      "description": "Cardless list row: 2px ink rule on the left darkens on hover; a Warm Sand marker band sweeps across the title over 450ms.",
+      "html": "<article class=\"ds-article-row\"><h3><span class=\"ds-article-title\">把 RAG 从 TF-IDF 换成 embedding 的一次真实改造</span></h3><p>切块、向量化、余弦检索，以及为什么 2G 内存选了 bge-small-zh。</p><p class=\"ds-article-meta\">技术 · 1283 次浏览 · 2026-10-28</p></article>",
+      "css": ".ds-article-row { border-left: 2px solid rgba(28, 28, 28, 0.1); padding: 24px 8px 24px 20px; transition: background-color 0.15s ease, border-color 0.15s ease; cursor: pointer; } .ds-article-row:hover { border-left-color: rgba(28, 28, 28, 0.4); background: rgba(28, 28, 28, 0.05); } .ds-article-row h3 { margin: 0; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; line-height: 1.375; letter-spacing: -0.01em; color: var(--color-foreground); } .ds-article-title { background-image: linear-gradient(transparent 60%, rgba(212, 163, 115, 0.26) 60%, rgba(212, 163, 115, 0.26) 90%, transparent 90%); background-repeat: no-repeat; background-size: 0% 100%; padding-bottom: 0.05em; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-article-row:hover .ds-article-title { background-size: 100% 100%; } .ds-article-row p { margin: 8px 0 0; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(28, 28, 28, 0.9); } .ds-article-row .ds-article-meta { margin-top: 12px; font-size: 0.875rem; color: rgba(28, 28, 28, 0.7); }"
+    },
+    {
+      "name": "Hero Mark",
+      "kind": "custom",
+      "description": "Oversized italic serif letter cropped at the hero edge; a watermark, never content.",
+      "html": "<div class=\"ds-hero-mark-wrap\"><span class=\"ds-hero-mark\" aria-hidden=\"true\">Y</span></div>",
+      "css": ".ds-hero-mark-wrap { position: relative; overflow: hidden; min-height: 180px; } .ds-hero-mark { position: absolute; top: -0.32em; right: -0.06em; font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: 18rem; line-height: 0.8; color: var(--color-primary); opacity: 0.16; pointer-events: none; user-select: none; }"
     },
     {
       "name": "Eyebrow Label",
       "kind": "custom",
       "description": "Wide-tracked sans caption above a display heading; the editorial 'kicker'.",
       "html": "<p class=\"ds-eyebrow\">你好，我是</p>",
-      "css": ".ds-eyebrow { margin: 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.25em; line-height: 1.4; color: rgba(28, 28, 28, 0.4); }"
+      "css": ".ds-eyebrow { margin: 0; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.25em; line-height: 1.4; color: rgba(28, 28, 28, 0.7); }"
     }
   ],
   "narrative": {
@@ -174,6 +181,7 @@
       "Two type voices: light serif for headings and content titles, sans for navigation, labels, meta, and body.",
       "Depth through rules, whitespace, and ink opacity — never through elevation.",
       "Accent is rare: the active navigation item is its only routine home.",
+      "A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.",
       "Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8."
     ],
     "rules": [
@@ -184,7 +192,7 @@
       },
       {
         "name": "The Ink Ladder Rule",
-        "body": "There are no gray tokens. Secondary and tertiary text is Ink at 90 / 60 / 40 percent; hairlines and tint washes are Ink at 10 / 5 percent. Introducing a slate or gray hex is a system violation.",
+        "body": "There are no gray tokens. Secondary and tertiary text is Ink at 90 / 70 / 40 percent; hairlines and tint washes are Ink at 10 / 5 percent. Introducing a slate or gray hex is a system violation.",
         "section": "colors"
       },
       {

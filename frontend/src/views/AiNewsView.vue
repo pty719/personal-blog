@@ -25,7 +25,7 @@ onMounted(async () => {
 
 <template>
   <div class="wide-col px-6 md:px-12 py-16 md:py-20">
-    <p class="font-sans text-xs md:text-sm text-foreground/60 tracking-[0.25em]">自动采集 · 每 6 小时更新</p>
+    <p class="font-sans text-xs md:text-sm text-foreground/70 tracking-[0.25em]">自动采集 · 每 6 小时更新</p>
     <h1 class="font-serif font-light tracking-tight text-4xl md:text-5xl leading-[1.1] mt-4">
       AI 新闻
     </h1>
@@ -47,7 +47,7 @@ onMounted(async () => {
         class="block py-8 border-b border-foreground/10 group"
       >
         <div class="flex flex-wrap items-baseline gap-4">
-          <span class="font-sans text-xs text-foreground/60 shrink-0">
+          <span class="font-sans text-xs text-foreground/70 shrink-0">
             {{ (n.published_at || '').slice(0, 10) }}
           </span>
           <SourceChip :label="n.source" class="shrink-0" />
@@ -55,14 +55,14 @@ onMounted(async () => {
         <h2 class="font-serif text-xl md:text-2xl leading-8 mt-3 group-hover:underline decoration-foreground/40 underline-offset-4">
           {{ n.title }}
         </h2>
-        <p v-if="n.summary" class="font-sans text-sm text-foreground/60 leading-7 mt-3 max-w-3xl line-clamp-3">
+        <p v-if="n.summary" class="font-sans text-sm text-foreground/70 leading-7 mt-3 max-w-3xl line-clamp-3">
           {{ n.summary }}
         </p>
       </a>
     </div>
 
     <!-- 合规声明：公开技术资讯聚合，非新闻信息服务（配合备案要求） -->
-    <p class="font-sans text-xs text-foreground/60 leading-6 mt-12 pt-6 border-t border-foreground/10">
+    <p class="font-sans text-xs text-foreground/70 leading-6 mt-12 pt-6 border-t border-foreground/10">
       本站「AI 技术资讯」为公开技术信息聚合：内容来自公开 RSS 源（Hacker News 等），版权归原作者所有，
       点击标题跳转原文。本站仅作技术资讯展示与学习交流，不提供新闻采编服务，不构成互联网新闻信息服务。
     </p>

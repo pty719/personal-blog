@@ -45,6 +45,9 @@
   }
   body {
     background-color: var(--color-background);
+    /* 纸纹：极轻的 SVG 噪点（3%），让 Paper 不是一块平色 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-weight: 450;          /* 正文稍加粗，改善可读性（标题仍各自 400） */
@@ -118,7 +121,7 @@
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.15em;
-    color: rgba(28, 28, 28, 0.6);
+    color: rgba(28, 28, 28, 0.7);
   }
   .input-editorial {
     width: 100%;

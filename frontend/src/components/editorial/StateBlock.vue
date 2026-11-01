@@ -8,7 +8,7 @@ defineProps({
 <template>
   <p
     v-if="state === 'loading'"
-    class="font-sans text-sm text-foreground/60 py-6"
+    class="font-sans text-sm text-foreground/70 py-6"
     role="status"
     aria-live="polite"
   >
@@ -21,7 +21,7 @@ defineProps({
   >
     {{ message || '加载失败，请稍后重试。' }}
   </p>
-  <p v-else class="font-sans text-sm text-foreground/60 py-6" role="status">
+  <p v-else class="font-sans text-sm text-foreground/70 py-6" role="status">
     {{ message || '暂无内容' }}
   </p>
 </template>

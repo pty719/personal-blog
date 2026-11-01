@@ -10,7 +10,7 @@ defineProps({
   <article class="py-7 border-b border-foreground/10">
     <div class="flex items-baseline justify-between gap-4">
       <h3 class="font-serif text-xl md:text-2xl font-normal">{{ project.name }}</h3>
-      <span v-if="project.stars > 0" class="font-sans text-xs tracking-[0.1em] text-foreground/60 shrink-0">
+      <span v-if="project.stars > 0" class="font-sans text-xs tracking-[0.1em] text-foreground/70 shrink-0">
         ⭐ {{ project.stars }}
       </span>
     </div>

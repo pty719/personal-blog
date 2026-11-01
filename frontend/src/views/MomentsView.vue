@@ -1,5 +1,6 @@
 <script setup>
 import { usePagedList } from '../composables/usePagedList'
+import SectionHeader from '../components/editorial/SectionHeader.vue'
 import StateBlock from '../components/editorial/StateBlock.vue'
 import PaginationBar from '../components/editorial/PaginationBar.vue'
 
@@ -15,12 +16,13 @@ function changePage(target) {
 
 <template>
   <section>
-    <div class="flex items-baseline justify-between gap-6 pb-5 border-b border-foreground/10">
-      <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">说说列表</h2>
-      <p v-if="!loading && !error" class="font-sans text-xs tracking-[0.15em] text-foreground/60">
-        共 {{ total }} 条
-      </p>
-    </div>
+    <SectionHeader title="说说列表">
+      <template #aside>
+        <p v-if="!loading && !error" class="font-sans text-xs tracking-[0.15em] text-foreground/70">
+          共 {{ total }} 条
+        </p>
+      </template>
+    </SectionHeader>
 
     <StateBlock
       v-if="loading || error || items.length === 0"
@@ -46,7 +48,7 @@ function changePage(target) {
             alt="说说配图"
           />
         </div>
-        <p class="mt-3 font-sans text-xs tracking-[0.12em] text-foreground/60">
+        <p class="mt-3 font-sans text-xs tracking-[0.12em] text-foreground/70">
           {{ (moment.created_at || '').slice(0, 10) }}
         </p>
       </article>

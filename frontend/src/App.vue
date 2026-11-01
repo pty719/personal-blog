@@ -88,7 +88,7 @@ const menu = [
   position: relative;
   padding: 2px 0;
   color: var(--color-foreground);
-  opacity: 0.6;                       /* = text-foreground/60 */
+  opacity: 0.7;                       /* = text-foreground/70 */
   font-weight: 500;                   /* 导航菜单字重 */
   text-decoration: none;
   transition: opacity 0.4s ease;

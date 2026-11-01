@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { apiGet } from '../lib/publicApi'
+import SectionHeader from '../components/editorial/SectionHeader.vue'
 import StateBlock from '../components/editorial/StateBlock.vue'
 
 const friends = ref([])
@@ -20,9 +21,7 @@ onMounted(async () => {
 
 <template>
   <section>
-    <div class="pb-5 border-b border-foreground/10">
-      <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">友链列表</h2>
-    </div>
+    <SectionHeader title="友链列表" />
 
     <StateBlock
       v-if="loading || error || friends.length === 0"
@@ -57,11 +56,11 @@ onMounted(async () => {
             <span class="block font-serif text-lg leading-7 group-hover:underline decoration-foreground/40 underline-offset-4">
               {{ friend.name }}
             </span>
-            <span v-if="friend.description" class="block font-sans text-sm text-foreground/60 mt-0.5 truncate">
+            <span v-if="friend.description" class="block font-sans text-sm text-foreground/70 mt-0.5 truncate">
               {{ friend.description }}
             </span>
           </span>
-          <span v-if="!friend.is_active" class="ml-auto shrink-0 font-sans text-xs tracking-[0.1em] text-foreground/60">
+          <span v-if="!friend.is_active" class="ml-auto shrink-0 font-sans text-xs tracking-[0.1em] text-foreground/70">
             可能失效
           </span>
         </a>

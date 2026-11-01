@@ -470,16 +470,16 @@ function logout() {
 
 .ok { color: rgba(28, 28, 28, 0.8); margin-bottom: 0.75rem; }
 .err { color: var(--color-foreground); margin-bottom: 0.75rem; font-weight: 500; }
-.empty { color: rgba(28, 28, 28, 0.6); }
+.empty { color: rgba(28, 28, 28, 0.7); }
 .list { list-style: none; }
 .row {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
   padding: 0.85rem 0; border-bottom: 1px solid rgba(28, 28, 28, 0.08);
 }
 .row-title { font-weight: 500; }
-.row-summary { color: rgba(28, 28, 28, 0.6); font-size: 0.8125rem; margin: 0.25rem 0; }
-.row-meta { color: rgba(28, 28, 28, 0.6); font-size: 0.75rem; margin-top: 0.15rem; letter-spacing: 0.04em; }
-.stars { color: rgba(28, 28, 28, 0.6); font-size: 0.75rem; }
+.row-summary { color: rgba(28, 28, 28, 0.7); font-size: 0.8125rem; margin: 0.25rem 0; }
+.row-meta { color: rgba(28, 28, 28, 0.7); font-size: 0.75rem; margin-top: 0.15rem; letter-spacing: 0.04em; }
+.stars { color: rgba(28, 28, 28, 0.7); font-size: 0.75rem; }
 
 /* ===== 搜索/批量删除工具栏 ===== */
 .toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; align-items: center; flex-wrap: wrap; }
@@ -493,10 +493,10 @@ function logout() {
 /* ===== 列表底部（全选 + 页信息） ===== */
 .list-footer {
   display: flex; justify-content: space-between; align-items: center;
-  padding-top: 0.75rem; color: rgba(28, 28, 28, 0.6); font-size: 0.75rem;
+  padding-top: 0.75rem; color: rgba(28, 28, 28, 0.7); font-size: 0.75rem;
 }
 .check-all { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none; }
-.page-info { color: rgba(28, 28, 28, 0.6); }
+.page-info { color: rgba(28, 28, 28, 0.7); }
 
 /* ===== 原生分页 ===== */
 .pagination { display: flex; gap: 0.35rem; margin-top: 1rem; justify-content: center; flex-wrap: wrap; }
