@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'
+import { renderArticleMarkdown } from '../lib/articleMarkdown'
 import { apiGet } from '../lib/publicApi'
 import StateBlock from '../components/editorial/StateBlock.vue'
 import TocList from '../components/editorial/TocList.vue'
@@ -11,6 +11,10 @@ const article = ref(null)
 const related = ref([])
 const loading = ref(true)
 const error = ref('')
+
+// 文章正文 HTML：走 DOMPurify 白名单（见 lib/articleMarkdown.js）。
+// 用 computed 而不是在模板里直接调函数 —— 内容不变时不会重复解析 Markdown。
+const bodyHtml = computed(() => renderArticleMarkdown(article.value?.content || ''))
 
 const contentRef = ref(null)
 const toc = ref([])
@@ -166,7 +170,7 @@ onBeforeUnmount(() => {
 
       <div class="article-body-layout" :class="{ 'has-toc': toc.length }">
         <div class="article-body">
-          <div ref="contentRef" class="prose-editorial mt-10" v-html="marked.parse(article.content)"></div>
+          <div ref="contentRef" class="prose-editorial mt-10" v-html="bodyHtml"></div>
 
           <section v-if="related.length" class="mt-14 pt-8 border-t border-foreground/10">
             <h2 class="font-serif text-xl md:text-2xl font-light tracking-tight">相关文章</h2>

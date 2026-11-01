@@ -65,7 +65,9 @@ def sitemap(db: Session = Depends(get_db)):
     entries = [f"<url><loc>{SITE}{page}</loc></url>" for page in pages]
     articles = db.query(Article).order_by(Article.id.desc()).all()
     for article in articles:
-        lastmod = article.updated_at or article.created_at
+        # updated_at / created_at 理论上都有值，但老数据可能是 NULL —— 兜底成当前时间，
+        # 否则 lastmod.date() 会抛 AttributeError，整个 sitemap 直接 500
+        lastmod = article.updated_at or article.created_at or datetime.now()
         entries.append(
             f"<url><loc>{SITE}/articles/{article.id}</loc>"
             f"<lastmod>{lastmod.date().isoformat()}</lastmod></url>"
@@ -81,6 +83,11 @@ def sitemap(db: Session = Depends(get_db)):
 
 @router.get("/robots.txt")
 def robots():
-    """爬虫协议：允许抓取，并指向 sitemap。"""
-    body = f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n"
+    """爬虫协议：允许抓正文，但后台和接口不该被搜索引擎收录。"""
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /admin\n"      # 后台页面不进搜索结果，也减少爬虫去打登录接口
+        f"Sitemap: {SITE}/sitemap.xml\n"
+    )
     return Response(content=body, media_type="text/plain; charset=utf-8")

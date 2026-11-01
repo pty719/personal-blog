@@ -10,6 +10,14 @@ backend/blog.db
 
 # ===== 备份文件（可能含旧密钥）=====
 *.bak
+# 带时间戳的备份：*.bak 匹配不到 blog.db.bak-20261030 这种，要单独写
+*.bak-*
+*.db.bak*
+
+# ===== AI / 编辑器工具产物（不该进仓库）=====
+.claude/
+.dsh/
+.impeccable/
 
 # ===== Python =====
 .venv/
