@@ -31,6 +31,35 @@ const msg = ref('')           // 文章区反馈
 const submitting = ref(false)
 const articles = ref([])
 
+const editingId = ref(null)
+const articleFormEl = ref(null)
+
+function resetArticleForm() {
+  editingId.value = null
+  title.value = ''
+  category.value = '默认'
+  content.value = ''
+}
+
+function cancelEdit() {
+  resetArticleForm()
+  msg.value = ''
+}
+
+async function startEdit(article) {
+  try {
+    const detail = await request.get('/articles/' + article.id)
+    title.value = detail.title
+    category.value = detail.category
+    content.value = detail.content
+    editingId.value = article.id
+    msg.value = ''
+    articleFormEl.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  } catch (e) {
+    msg.value = '加载文章失败：' + (e.response?.data?.detail || e.message)
+  }
+}
+
 async function publishArticle() {
   if (!title.value.trim() || !content.value.trim()) {
     msg.value = '标题和正文不能为空'
@@ -38,16 +67,24 @@ async function publishArticle() {
   }
   submitting.value = true
   msg.value = ''
+  const payload = {
+    title: title.value,
+    content: content.value,
+    category: category.value || '默认',
+  }
   try {
-    const res = await request.post('/articles', {
-      title: title.value, content: content.value, category: category.value || '默认',
-    })
-    msg.value = '✅ 发布成功，摘要：' + (res.summary || '（未生成）')
-    title.value = ''
-    content.value = ''
+    if (editingId.value) {
+      await request.put('/articles/' + editingId.value, payload)
+      msg.value = '✅ 文章已更新'
+    } else {
+      const res = await request.post('/articles', payload)
+      msg.value = '✅ 发布成功，摘要：' + (res.summary || '（未生成）')
+    }
+    resetArticleForm()
     fetchArticles()
+    fetchStats()
   } catch (e) {
-    msg.value = '发布失败：' + (e.response?.data?.detail || e.message)
+    msg.value = (editingId.value ? '保存失败：' : '发布失败：') + (e.response?.data?.detail || e.message)
   } finally {
     submitting.value = false
   }
@@ -124,7 +161,9 @@ async function delArticle(id) {
   try {
     await request.delete('/articles/' + id)
     msg.value = '✅ 文章已删除'
+    if (editingId.value === id) cancelEdit()
     fetchArticles()
+    fetchStats()
   } catch (e) {
     msg.value = '删除失败：' + (e.response?.data?.detail || e.message)
   }
@@ -358,15 +397,18 @@ function logout() {
 
     <!-- ══════════ 文章管理 ══════════ -->
     <section class="card">
-      <h3>发布文章</h3>
+      <h3>{{ editingId ? '编辑文章 #' + editingId : '发布文章' }}</h3>
       <p v-if="msg" :class="msg.startsWith('✅') ? 'ok' : 'err'" :role="msg.startsWith('✅') ? 'status' : 'alert'">{{ msg }}</p>
-      <form @submit.prevent="publishArticle">
+      <form ref="articleFormEl" @submit.prevent="publishArticle">
         <input v-model="title" type="text" placeholder="文章标题" aria-label="文章标题" class="input" />
         <input v-model="category" type="text" placeholder="分类（默认'默认'）" aria-label="文章分类" class="input" />
         <textarea v-model="content" placeholder="正文（支持 Markdown）" aria-label="文章正文（支持 Markdown）" class="textarea"></textarea>
-        <button type="submit" :disabled="submitting" class="btn-primary">
-          {{ submitting ? '发布中...' : '发布文章' }}
-        </button>
+        <div class="form-actions">
+          <button type="submit" :disabled="submitting" class="btn-primary">
+            {{ submitting ? (editingId ? '保存中...' : '发布中...') : (editingId ? '保存修改' : '发布文章') }}
+          </button>
+          <button v-if="editingId" type="button" class="btn-danger" @click="cancelEdit">取消编辑</button>
+        </div>
       </form>
     </section>
 
@@ -396,7 +438,10 @@ function logout() {
             <div class="row-summary" v-if="article.summary">{{ article.summary }}</div>
             <div class="row-meta">{{ article.category }} · {{ article.created_at.slice(0, 10) }}</div>
           </div>
-          <button @click="delArticle(article.id)" class="btn-del">删除</button>
+          <div class="row-actions">
+            <button @click="startEdit(article)" class="btn-del">编辑</button>
+            <button @click="delArticle(article.id)" class="btn-del">删除</button>
+          </div>
         </li>
       </ul>
 
@@ -608,6 +653,7 @@ function logout() {
 .stars { color: rgba(28, 28, 28, 0.7); font-size: 0.75rem; }
 
 /* ===== 搜索/批量删除工具栏 ===== */
+.form-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; align-items: center; flex-wrap: wrap; }
 .search-input { margin-bottom: 0; flex: 1; min-width: 12rem; }
 .btn-sm { padding: 0.55rem 1rem; font-size: 0.8125rem; }

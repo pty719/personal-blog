@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     # 登录态有效期（小时），72 小时 = 3 天免登录
     JWT_EXPIRE_HOURS: int = 72
 
+    # 站点对外地址：RSS / sitemap / robots 用它生成绝对链接
+    SITE_URL: str = "https://yizhiyu.me"
+
     #DEEPSEEK_KEY
     DEEPSEEK_API_KEY: str = ""      # 从 .env 读取（密钥不进代码！本地 backend/.env，服务器 deploy/.env）
     MODEL: str = "deepseek-chat"

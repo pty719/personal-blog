@@ -15,6 +15,9 @@ export default defineConfig({
       // 前端代码里统一写 fetch('/api/moments') 这种相对路径，
       // 开发时由 Vite 代理转发，部署时由 nginx 转发 —— 前端代码零改动
       '/api': 'http://127.0.0.1:8000',   // 本地后端端口（8000）
+      '/feed.xml': 'http://127.0.0.1:8000',
+      '/sitemap.xml': 'http://127.0.0.1:8000',
+      '/robots.txt': 'http://127.0.0.1:8000',
     },
   },
 })
