@@ -185,13 +185,28 @@ onMounted(() => {
     <section class="closing-band">
       <span class="closing-mark" aria-hidden="true">y</span>
       <div class="closing-inner">
-        <router-link to="/ai-assistant" class="closing-cta font-serif">
-          和 AI 助手聊聊 <span aria-hidden="true">→</span>
-        </router-link>
-        <div class="closing-links font-sans">
-          <router-link to="/articles">阅读文章</router-link>
-          <router-link to="/projects">查看项目</router-link>
+        <h2 class="closing-title font-serif">最近更新</h2>
+        <div v-if="articles.length || moments.length" class="closing-list">
+          <router-link
+            v-if="articles[0]"
+            :to="'/articles/' + articles[0].id"
+            class="closing-row"
+          >
+            <span class="closing-kind font-sans">文章</span>
+            <span class="closing-text font-serif">{{ articles[0].title }}</span>
+            <span class="closing-date font-sans">{{ (articles[0].created_at || '').slice(0, 10) }}</span>
+          </router-link>
+          <router-link
+            v-if="moments[0]"
+            to="/moments"
+            class="closing-row"
+          >
+            <span class="closing-kind font-sans">说说</span>
+            <span class="closing-text font-serif">{{ moments[0].content }}</span>
+            <span class="closing-date font-sans">{{ (moments[0].created_at || '').slice(0, 10) }}</span>
+          </router-link>
         </div>
+        <p v-else class="closing-empty font-sans">暂无更新</p>
       </div>
     </section>
   </div>
@@ -287,39 +302,51 @@ onMounted(() => {
   margin: 0 auto;
 }
 
-.closing-cta {
-  display: inline-block;
-  font-size: clamp(2rem, 4vw, 3rem);
+.closing-title {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 300;
-  line-height: 1.15;
   letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--color-background);
-  border-bottom: 1px solid transparent;
-  padding-bottom: 0.1em;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.closing-cta:hover {
-  color: var(--color-primary);
-  border-color: rgba(212, 163, 115, 0.6);
+  margin-bottom: 1.75rem;
 }
 
-.closing-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 2rem;
+.closing-list {
+  border-top: 1px solid rgba(249, 248, 246, 0.16);
 }
-.closing-links a {
-  color: rgba(249, 248, 246, 0.7);
-  font-size: 0.875rem;
-  letter-spacing: 0.15em;
-  border-bottom: 1px solid rgba(249, 248, 246, 0.3);
-  padding-bottom: 2px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-.closing-links a:hover {
+
+.closing-row {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(249, 248, 246, 0.16);
   color: var(--color-background);
-  border-color: var(--color-background);
+  transition: color 0.15s ease;
+}
+.closing-row:hover { color: var(--color-primary); }
+
+.closing-kind {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: rgba(249, 248, 246, 0.7);
+}
+.closing-text {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.closing-date {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: rgba(249, 248, 246, 0.7);
+}
+.closing-empty {
+  font-size: 0.875rem;
+  color: rgba(249, 248, 246, 0.7);
 }
 
 .closing-mark {
@@ -341,5 +368,8 @@ onMounted(() => {
 @media (max-width: 767px) {
   .closing-band { padding: 64px 24px 72px; }
   .closing-mark { display: none; }
+  .closing-row { grid-template-columns: 2.5rem minmax(0, 1fr); }
+  .closing-date { display: none; }
+  .closing-text { white-space: normal; }
 }
 </style>

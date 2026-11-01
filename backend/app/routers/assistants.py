@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..schemas import AssistantCreate, AssistantOut
 from ..models import Assistant, Article, Moment
 from ..utils.ratelimit import check_rate_limit
-from ..utils.llm import chat_completion
+from ..utils.llm import chat_completion, chat_completion_stream
 from ..db import get_db, SessionLocal
 
 router = APIRouter(prefix='/api/assistants', tags=['Assistant'])
@@ -77,23 +77,69 @@ SYSTEMPROMPT = "你是小站站长的AI助手，回答简洁友好，基于站�
 
 
 # 把react循环跑起来！
-def run_agent(messages):
+def run_agent_stream(messages):
+    """ReAct 循环的流式版：文本增量实时 yield，工具调用片段累积后执行。"""
     messages = [{"role": "system", "content": SYSTEMPROMPT}] + messages
+    all_text = []
     for _ in range(5):
-        msg = chat_completion(messages, TOOLS)
-        if msg.get("tool_calls"):
-            messages.append(msg)
-            for call in msg["tool_calls"]:
+        content_parts = []
+        tool_calls = []
+        for delta in chat_completion_stream(messages, TOOLS):
+            text = delta.get("content")
+            if text:
+                content_parts.append(text)
+                all_text.append(text)
+                yield {"type": "text", "content": text}
+            for piece in delta.get("tool_calls") or []:
+                index = piece.get("index", len(tool_calls))
+                while len(tool_calls) <= index:
+                    tool_calls.append({
+                        "id": "",
+                        "type": "function",
+                        "function": {"name": "", "arguments": ""},
+                    })
+                call = tool_calls[index]
+                if piece.get("id"):
+                    call["id"] = piece["id"]
+                fn = piece.get("function") or {}
+                if fn.get("name"):
+                    call["function"]["name"] = fn["name"]
+                if fn.get("arguments"):
+                    call["function"]["arguments"] += fn["arguments"]
+
+        if tool_calls:
+            messages.append({
+                "role": "assistant",
+                "content": "".join(content_parts) or None,
+                "tool_calls": tool_calls,
+            })
+            for call in tool_calls:
                 name = call["function"]["name"]
                 yield {"type": "tool", "content": f"正在调用：{name}"}
-                result, sources = call_tool(name, json.loads(call["function"]["arguments"]))
+                try:
+                    args = json.loads(call["function"]["arguments"] or "{}")
+                except json.JSONDecodeError:
+                    args = {}
+                result, sources = call_tool(name, args)
                 messages.append({"role": "tool", "tool_call_id": call["id"], "content": result})
                 if sources:
                     yield {"type": "sources", "sources": sources}
+            # 工具前的引导语与工具后的最终回答之间留一个空行
+            if content_parts:
+                all_text.append("\n\n")
+                yield {"type": "text", "content": "\n\n"}
             continue
-        else:
-            yield {"type": "answer", "content": msg["content"]}
-            return
+
+        answer = "".join(all_text).strip()
+        if not answer:
+            answer = "抱歉，我这次没有生成内容，请再试一次。"
+            yield {"type": "text", "content": answer}
+        yield {"type": "answer", "content": answer}
+        return
+
+    fallback = "抱歉，这个问题我尝试了几轮工具调用仍未完成，请换个问法。"
+    yield {"type": "text", "content": fallback}
+    yield {"type": "answer", "content": fallback}
 
 
 def event_stream(conv_id, is_new, history):
@@ -103,19 +149,22 @@ def event_stream(conv_id, is_new, history):
     history.sort(key=lambda x: 0 if x.role == "summary" else 1)
     messages = [{"role": m.role, "content": m.content} for m in history]
     try:
-        for event in run_agent(messages):
-            if event["type"] == "tool":
+        for event in run_agent_stream(messages):
+            if event["type"] == "text":
+                # 文本增量：逐块推给前端，前端逐字渲染
+                yield f'data: {json.dumps({"type": "text", "content": event["content"]}, ensure_ascii=False)} \n\n'
+            elif event["type"] == "tool":
                 yield f'data: {json.dumps({"type": "tool", "content": event["content"]}, ensure_ascii=False)} \n\n'
             elif event["type"] == "sources":
                 yield f'data: {json.dumps({"type": "sources", "sources": event["sources"]}, ensure_ascii=False)} \n\n'
             elif event["type"] == "answer":
+                # 完整答案落库（增量已经逐块发过，这里不再重复发送）
                 db = SessionLocal()
                 try:
                     db.add(Assistant(conversation_id=conv_id, role="assistant", content=event["content"]))
                     db.commit()
                 finally:
                     db.close()
-                yield f'data: {json.dumps({"type": "text", "content": event["content"]}, ensure_ascii=False)} \n\n'
     except Exception:
         yield f'data: {json.dumps({"type": "text", "content": "AI 服务暂时不可用，请稍后再试"}, ensure_ascii=False)} \n\n'
     yield f"data: {json.dumps({"type": "done"})} \n\n"
@@ -178,5 +227,33 @@ def chat(
         event_stream(conv_id, is_new=(data.conversation_id is None), history=history),
         media_type="text/event-stream",
     )
+
+
+@router.get("/conversations/{conversation_id}", response_model=list[AssistantOut])
+def get_conversation(conversation_id: str, db: Session = Depends(get_db)):
+    """按 UUID 读取一段匿名会话。
+
+    不提供“列出全部会话”的接口：UUID 本身就是访问凭据，避免把别人的对话列出来。
+    """
+    rows = (
+        db.query(Assistant)
+        .filter(Assistant.conversation_id == conversation_id)
+        .order_by(Assistant.created_at, Assistant.id)
+        .all()
+    )
+    if not rows:
+        raise HTTPException(status_code=404, detail="会话不存在")
+    return rows
+
+
+@router.delete("/conversations/{conversation_id}", status_code=204)
+def delete_conversation(conversation_id: str, db: Session = Depends(get_db)):
+    """删除一段匿名会话（知道 UUID 才能删）。"""
+    rows = db.query(Assistant).filter(Assistant.conversation_id == conversation_id).all()
+    if not rows:
+        raise HTTPException(status_code=404, detail="会话不存在")
+    for row in rows:
+        db.delete(row)
+    db.commit()
 
 

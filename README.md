@@ -149,7 +149,7 @@ docker exec blog-mysql mysqldump -uroot -p<密码> blog > backup_$(date +%Y%m%d)
 
 ---
 
-## 接口一览（当前 17 个）
+## 接口一览
 
 | 方法 | 路径 | 说明 | 需登录 |
 |---|---|---|---|
@@ -204,6 +204,8 @@ users（用户） / articles（文章） / moments（说说） / friends（友�
 - [x] **限流防护**：IP 限流 + 会话轮数 + 消息长度 + event_stream 兜底
 - [x] **RAG 知识库"问博主"**：切块 + TF-IDF 检索 + 增强回答
 - [x] AI 助手增强：摘要压缩（>20 条触发，LLM 滚动摘要，role=summary 存储）
+- [x] AI 助手：真正的 token 级流式 + 历史会话侧栏 + 回答来源链接
+- [x] 相关文章：复用 embedding 索引做语义相似推荐
 - [x] RAG 升级：embedding（fastembed + bge-small-zh）替换 TF-IDF（numpy 余弦，接口不变）
 - [x] 回答引用链接化（点击跳到原文）
 - [ ] 管理后台"修改密码"功能（正规做法，替代手动改库）

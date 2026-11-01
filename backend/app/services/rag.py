@@ -83,3 +83,46 @@ def search(query: str, top_k: int = 3) -> str:
     """兼容旧调用：只返回拼好的上下文"""
     context, _sources = search_with_sources(query, top_k)
     return context
+
+
+def related_articles(article_id: int, top_k: int = 3) -> list[dict]:
+    """基于文章块向量的相似度，找语义相近的其他文章（复用 RAG 索引）。"""
+    source = [item[3] for item in INDEX if item[0] == article_id]
+    if not source:
+        return []
+
+    source_vecs = np.array(source)
+    source_norms = np.linalg.norm(source_vecs, axis=1) + 1e-9
+    scores: dict[int, float] = {}
+    for other_id, _title, _chunk, vec in INDEX:
+        if other_id == article_id:
+            continue
+        sims = (source_vecs @ vec) / (source_norms * (np.linalg.norm(vec) + 1e-9))
+        best = float(np.max(sims))
+        if best > scores.get(other_id, -1.0):
+            scores[other_id] = best
+
+    top = sorted(scores.items(), key=lambda item: item[1], reverse=True)[:top_k]
+    if not top:
+        return []
+
+    ids = [item_id for item_id, _score in top]
+    db = SessionLocal()
+    try:
+        rows = {
+            article.id: article
+            for article in db.query(Article).filter(Article.id.in_(ids)).all()
+        }
+    finally:
+        db.close()
+
+    return [
+        {
+            "id": item_id,
+            "title": rows[item_id].title,
+            "summary": rows[item_id].summary,
+            "score": round(score, 4),
+        }
+        for item_id, score in top
+        if item_id in rows
+    ]

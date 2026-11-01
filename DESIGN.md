@@ -185,7 +185,7 @@ An oversized italic serif "Y" (clamp 15–28rem) sits at the hero's right edge i
 Article detail opens with a real folio ("NO. 09") set in Warm Sand on the dark cover, and the summary is an italic serif standfirst with a 2.5rem Warm Sand opening quote in the left margin (hidden on mobile).
 
 ### Signature: Cover Band
-A full-bleed Deep Ink field opens the home page and every article, and a matching band closes the home page. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule marks its opening or closing edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. The closing band carries one large serif invitation and two small links, plus a lowercase italic "y" watermark; never round, shadow, or gradient the band.
+A full-bleed Deep Ink field opens the home page and every article, and a matching band closes the home page. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule marks its opening or closing edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. The closing band carries a serif "最近更新" heading and the latest article/moment rows, plus a lowercase italic "y" watermark; never round, shadow, or gradient the band.
 
 ## Do's and Don'ts
 

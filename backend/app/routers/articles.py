@@ -44,6 +44,14 @@ def list_articles(page: int = 1, page_size: int = 10, keyword: str = "", db: Ses
             "items": [ArticleOut.model_validate(a) for a in items]}
 
 
+@router.get("/{article_id}/related")
+def get_related_articles(article_id: int, limit: int = 3):
+    """语义相近的其他文章（RAG 向量检索，供详情页“相关文章”使用）。"""
+    from ..services.rag import related_articles
+    limit = max(1, min(limit, 10))
+    return related_articles(article_id, limit)
+
+
 @router.get("/{article_id}", response_model=ArticleDetail)
 def get_article(article_id: int, db: Session = Depends(get_db)):
     """文章详情：返回全文，并让浏览量 +1（简单统计，够用）"""

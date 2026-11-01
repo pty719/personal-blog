@@ -7,12 +7,17 @@ import StateBlock from '../components/editorial/StateBlock.vue'
 
 const route = useRoute()
 const article = ref(null)
+const related = ref([])
 const loading = ref(true)
 const error = ref('')
 
 onMounted(async () => {
   try {
     article.value = await apiGet(`/api/articles/${route.params.id}`)
+    // 相关文章是增强信息：失败时静默忽略，不影响正文
+    apiGet(`/api/articles/${route.params.id}/related`)
+      .then((data) => { related.value = data || [] })
+      .catch(() => { related.value = [] })
   } catch (e) {
     error.value = e.status === 404 ? '文章不存在。' : e.message
   } finally {
@@ -49,6 +54,25 @@ onMounted(async () => {
       </header>
 
       <div class="prose-editorial mt-10" v-html="marked.parse(article.content)"></div>
+
+      <section v-if="related.length" class="mt-14 pt-8 border-t border-foreground/10">
+        <h2 class="font-serif text-xl md:text-2xl font-light tracking-tight">相关文章</h2>
+        <ul class="list-none mt-3">
+          <li v-for="r in related" :key="r.id">
+            <router-link
+              :to="'/articles/' + r.id"
+              class="block py-4 border-b border-foreground/10 group"
+            >
+              <span class="font-serif text-lg leading-7 group-hover:underline decoration-foreground/40 underline-offset-4">
+                {{ r.title }}
+              </span>
+              <span v-if="r.summary" class="block font-sans text-sm text-foreground/70 mt-1 line-clamp-1">
+                {{ r.summary }}
+              </span>
+            </router-link>
+          </li>
+        </ul>
+      </section>
 
       <div class="mt-14 pt-6 border-t border-foreground/10">
         <router-link
