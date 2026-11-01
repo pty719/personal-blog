@@ -4,6 +4,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import request from '../api/request'   // 用封装的 axios
+import AppInput from '../components/editorial/AppInput.vue'
+import AppButton from '../components/editorial/AppButton.vue'
 
 const router = useRouter()
 const username = ref('')    // v-model 绑定输入框
@@ -38,37 +40,35 @@ async function handleLogin() {
 </script>
 
 <template>
-  <div class="login-box">
-    <h2>管理后台登录</h2>
-    <p v-if="error" class="error">{{ error }}</p>
+  <section class="page-col max-w-sm py-10">
+    <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">管理后台登录</h2>
 
-    <!-- v-model：输入框 <-> ref 变量 双向绑定（输入即改值） -->
-    <input v-model="username" type="text" placeholder="用户名" class="input" />
-    <input v-model="password" type="password" placeholder="密码" class="input"
-           @keyup.enter="handleLogin" />   <!-- 回车也能登录 -->
+    <form class="mt-8" @submit.prevent="handleLogin">
+      <p
+        v-if="error"
+        class="mb-5 font-sans text-sm text-foreground border-l border-foreground/30 pl-4"
+        role="alert"
+      >
+        {{ error }}
+      </p>
 
-    <button @click="handleLogin" :disabled="loading" class="btn">
-      {{ loading ? '登录中...' : '登 录' }}
-    </button>
-    <p class="tip">测试账号：admin / admin123</p>
-  </div>
+      <AppInput
+        id="login-username"
+        v-model="username"
+        label="用户名"
+        autocomplete="username"
+      />
+      <AppInput
+        id="login-password"
+        v-model="password"
+        label="密码"
+        type="password"
+        autocomplete="current-password"
+      />
+
+      <AppButton type="submit" :disabled="loading" class="w-full">
+        {{ loading ? '登录中…' : '登 录' }}
+      </AppButton>
+    </form>
+  </section>
 </template>
-
-<style scoped>
-.login-box {
-  max-width: 320px; margin: 80px auto;
-  background: #fff; padding: 32px;
-  border-radius: 12px; border: 1px solid #e5e7eb;
-}
-.input {
-  width: 100%; padding: 10px 12px; margin-bottom: 12px;
-  border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box;
-}
-.btn {
-  width: 100%; padding: 10px; background: #2563eb; color: #fff;
-  border: none; border-radius: 8px; cursor: pointer;
-}
-.btn:disabled { opacity: 0.6; }
-.error { color: #dc2626; margin-bottom: 12px; font-size: 14px; }
-.tip { color: #9ca3af; font-size: 12px; margin-top: 12px; text-align: center; }
-</style>

@@ -49,8 +49,8 @@ def build_index():
         db.close()
 
 
-def search(query: str, top_k: int = 3) -> str:
-    """问题 embedding → 与所有块余弦相似度 → top_k 拼接返回"""
+def _search_results(query: str, top_k: int = 3) -> list[dict]:
+    """问题 embedding → 与所有块余弦相似度 → top_k 结果（含文章 id/title/chunk）"""
     q_vec = np.array(_embed([query])[0])                       # (dim,)
     vectors = np.array([item[3] for item in INDEX])            # (N, dim)
     # 余弦相似度：cos = 点积 / (模1 × 模2)
@@ -58,8 +58,28 @@ def search(query: str, top_k: int = 3) -> str:
         np.linalg.norm(vectors, axis=1) * np.linalg.norm(q_vec) + 1e-9
     )
     top_idx = scores.argsort()[::-1][:top_k]                   # 分数降序前 k
-    result = []
+    results = []
     for i in top_idx:
-        _id, title, chunk, _vec = INDEX[i]
-        result.append(f"【文章《{title}》】：{chunk}")
-    return "\n\n".join(result)
+        article_id, title, chunk, _vec = INDEX[i]
+        results.append({"id": article_id, "title": title, "chunk": chunk})
+    return results
+
+
+def search_with_sources(query: str, top_k: int = 3) -> tuple[str, list[dict]]:
+    """返回（拼好的上下文, 去重后的来源文章），供 AI 助手回答后渲染来源链接"""
+    results = _search_results(query, top_k)
+    context = "\n\n".join(f"【文章《{r['title']}》】：{r['chunk']}" for r in results)
+    sources = []
+    seen = set()
+    for r in results:
+        if r["id"] in seen:
+            continue
+        seen.add(r["id"])
+        sources.append({"id": r["id"], "title": r["title"]})
+    return context, sources
+
+
+def search(query: str, top_k: int = 3) -> str:
+    """兼容旧调用：只返回拼好的上下文"""
+    context, _sources = search_with_sources(query, top_k)
+    return context

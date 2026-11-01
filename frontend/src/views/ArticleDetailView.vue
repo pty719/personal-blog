@@ -1,50 +1,60 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'   // Markdown 渲染库：把 # 标题等语法转成 HTML
+import { marked } from 'marked'
+import { apiGet } from '../lib/publicApi'
+import StateBlock from '../components/editorial/StateBlock.vue'
 
-// useRoute：拿到当前 URL 的路由信息（里面有 :id 参数）
 const route = useRoute()
-const article = ref(null)    // 文章数据（初始 null = 还没加载）
+const article = ref(null)
+const loading = ref(true)
 const error = ref('')
 
 onMounted(async () => {
   try {
-    // route.params.id = URL 里的文章 id（字符串），拼进请求
-    const res = await fetch(`/api/articles/${route.params.id}`)
-    if (!res.ok) throw new Error('文章不存在（' + res.status + '）')
-    article.value = await res.json()
+    article.value = await apiGet(`/api/articles/${route.params.id}`)
   } catch (e) {
-    error.value = '加载失败：' + e.message
+    error.value = e.status === 404 ? '文章不存在。' : e.message
+  } finally {
+    loading.value = false
   }
 })
 </script>
 
 <template>
-  <div v-if="error" class="error">{{ error }}</div>
+  <div class="page-col">
+    <StateBlock v-if="loading" state="loading" message="加载文章…" />
+    <StateBlock v-else-if="error" state="error" :message="error" />
 
-  <!-- v-else-if：article 加载出来才渲染（null 时不渲染，避免 undefined 报错） -->
-  <article v-else-if="article">
-    <h1>{{ article.title }}</h1>
-    <div class="meta">
-      {{ article.category }} · {{ article.tags }} · {{ article.views }} 次浏览 ·
-      {{ article.created_at.slice(0, 10) }}
-    </div>
-    <!-- AI 生成的摘要（有值才显示） -->
-    <div v-if="article.summary" class="summary">📝 {{ article.summary }}</div>
-    <!-- v-html：把 Markdown 渲染后的 HTML 塞进页面（marked.parse 转换） -->
-    <div class="content" v-html="marked.parse(article.content)"></div>
-  </article>
+    <article v-else-if="article">
+      <header class="pb-8 border-b border-foreground/10">
+        <h1 class="font-serif font-light tracking-tight text-3xl md:text-4xl leading-[1.15]">
+          {{ article.title }}
+        </h1>
+        <p class="font-sans text-xs md:text-sm tracking-[0.12em] text-foreground/60 mt-5">
+          {{ article.category }}
+          <template v-if="article.tags"> · {{ article.tags }}</template>
+          · {{ article.views }} 次浏览 · {{ (article.created_at || '').slice(0, 10) }}
+        </p>
+      </header>
 
-  <p v-else>加载中...</p>
+      <div
+        v-if="article.summary"
+        class="mt-8 pt-5 border-t border-foreground/20 font-serif italic text-lg leading-8 text-foreground/80"
+      >
+        {{ article.summary }}
+      </div>
+
+      <div class="prose-editorial mt-10" v-html="marked.parse(article.content)"></div>
+
+      <div class="mt-14 pt-6 border-t border-foreground/10">
+        <router-link
+          to="/articles"
+          class="font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+        >
+          ← 返回文章列表
+        </router-link>
+      </div>
+    </article>
+  </div>
 </template>
-
-<style scoped>
-.meta { color: #9ca3af; font-size: 14px; margin: 12px 0 24px; }
-.summary {
-  background: #eff6ff; color: #1d4ed8; border-left: 4px solid #2563eb;
-  padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; line-height: 1.7;
-}
-.content { line-height: 1.9; background: #fff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; }
-.error { color: #dc2626; }
-</style>

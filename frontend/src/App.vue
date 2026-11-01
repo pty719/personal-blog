@@ -8,6 +8,15 @@
 // script setup：Vue 3 的推荐写法，这里的 JS 逻辑会绑定到下面的模板
 // ref() 创建"响应式数据"：值变了，页面自动更新
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// 详情页（/articles/9）也算「文章」激活：扁平路由没有父子关系，手动判断前缀
+function isActive(path) {
+  if (path === '/') return route.path === '/'
+  return route.path === path || route.path.startsWith(path + '/')
+}
 
 // 导航菜单：数组里每项 = 一个菜单项（text 显示文字，path 跳转地址）
 // Week 2 每做一个新页面，就往这里加一项
@@ -22,8 +31,10 @@ const menu = [
 </script>
 
 <template>
+  <a href="#main-content" class="skip-link">跳到主要内容</a>
+
   <!-- 导航栏：Editorial —— 单色、细下边框、字距拉开；hover 时滑出下划线 -->
-  <nav class="sticky top-0 z-30 bg-background border-b border-foreground/10">
+  <nav class="sticky top-0 z-30 bg-background border-b border-foreground/10" aria-label="主导航">
     <div class="max-w-6xl mx-auto px-6 md:px-12 flex items-center justify-between gap-x-8 gap-y-3 py-5 md:py-6 flex-wrap">
       <!-- Logo：衬线 + 拉开字距（原文案，仅作站名展示） -->
       <span class="font-serif font-normal text-lg md:text-xl tracking-[0.2em] text-foreground">
@@ -36,6 +47,7 @@ const menu = [
           :key="item.path"
           :to="item.path"
           class="nav-link"
+          :class="{ 'nav-link--active': isActive(item.path) }"
         >
           {{ item.text }}
         </router-link>
@@ -44,7 +56,7 @@ const menu = [
   </nav>
 
   <!-- 路由出口：当前 URL 对应的页面组件渲染在这里（内容栏居中对称） -->
-  <main class="px-6 md:px-12 pt-12 md:pt-16 pb-24 md:pb-32">
+  <main id="main-content" tabindex="-1" class="px-6 md:px-12 pt-12 md:pt-16 pb-24 md:pb-32">
     <div class="max-w-4xl mx-auto min-h-[calc(100vh-12rem)]">
       <router-view />
     </div>
@@ -52,10 +64,26 @@ const menu = [
 </template>
 
 <style scoped>
-/* scoped：这里的样式只作用于本组件，不会污染其他页面 */
+/* 跳转链接：键盘用户按 Tab 第一下即可跳过导航 */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 50;
+  padding: 0.75rem 1rem;
+  background: var(--color-foreground);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
 
 /* 导航链接：hover 时细线从右往左滑出（Editorial hover-underline），
-   激活项（路由完全匹配）常驻下划线 + 加深 */
+   激活项（含详情页等子路径）常驻下划线 + 加深 */
 .nav-link {
   position: relative;
   padding: 2px 0;
@@ -80,12 +108,12 @@ const menu = [
 .nav-link:hover {
   opacity: 1;                          /* hover 文字加深，下划线滑出 */
 }
-.nav-link.router-link-exact-active {
+.nav-link--active {
   opacity: 1;
-  color: var(--color-primary);         /* 全站唯一彩色：当前激活路由文字 */
+  color: var(--color-primary-ink);     /* 加深的暖沙：文字对比度 ≥4.5:1 */
 }
 .nav-link:hover::after,
-.nav-link.router-link-exact-active::after {
+.nav-link--active::after {
   transform: scaleX(1);
   transform-origin: left center;       /* 悬停/激活时从右往左铺开 */
 }

@@ -1,67 +1,71 @@
 <script setup>
-import { ref, onMounted } from "vue"
+import { onMounted, ref } from 'vue'
+import { apiGet } from '../lib/publicApi'
+import StateBlock from '../components/editorial/StateBlock.vue'
+
 const friends = ref([])
 const loading = ref(true)
 const error = ref('')
 
-onMounted(async ()=>{
-  try{
-    const res = await fetch('/api/friends')
-    friends.value = await res.json()
-  }catch (e){
-    error.value = '加载失败' + e.message + '后端启动了吗？'
-  }finally {
+onMounted(async () => {
+  try {
+    friends.value = await apiGet('/api/friends')
+  } catch (e) {
+    error.value = e.message
+  } finally {
     loading.value = false
   }
 })
 </script>
 
 <template>
-  <h2>友链列表</h2>
+  <section>
+    <div class="pb-5 border-b border-foreground/10">
+      <h2 class="font-serif text-2xl md:text-3xl font-light tracking-tight">友链列表</h2>
+    </div>
 
-  <p v-if="loading">加载中...</p>
-  <p v-else-if="error">{{error}}</p>
-  <p v-else-if="friends.length == 0">暂无友链</p>
+    <StateBlock
+      v-if="loading || error || friends.length === 0"
+      :state="loading ? 'loading' : error ? 'error' : 'empty'"
+      :message="error || '暂无友链'"
+    />
 
-  <div v-else class="friend-grid">
-    <a v-for="friend in friends" :key="friend.id" :href="friend.url" target="_blank"
-       :class="['friend-card', { 'friend-inactive': !friend.is_active }]">
-      <img v-if="friend.avatar" :src="friend.avatar" loading="lazy" class="friend-avatar">
-      <span v-else class="friend-avatar friend-fallback">{{ friend.name[0]}}</span>
-      <div class="friend-info">
-        <div class="friend-name">
-          {{ friend.name }}
-          <span v-if="!friend.is_active" class="friend-badge">⚠️ 可能失效</span>
-        </div>
-        <div class="friend-desc">{{ friend.description}}</div>
-      </div>
-    </a>
-  </div>
+    <ul v-else class="list-none mt-2">
+      <li v-for="friend in friends" :key="friend.id" class="border-b border-foreground/10">
+        <a
+          :href="friend.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-4 md:gap-6 py-5 group"
+        >
+          <img
+            v-if="friend.avatar"
+            :src="friend.avatar"
+            loading="lazy"
+            decoding="async"
+            class="w-10 h-10 object-cover border border-foreground/10 shrink-0"
+            :alt="friend.name + ' 的头像'"
+          />
+          <span
+            v-else
+            class="w-10 h-10 shrink-0 border border-foreground/20 flex items-center justify-center font-serif text-lg"
+            aria-hidden="true"
+          >
+            {{ friend.name[0] }}
+          </span>
+          <span class="min-w-0">
+            <span class="block font-serif text-lg leading-7 group-hover:underline decoration-foreground/40 underline-offset-4">
+              {{ friend.name }}
+            </span>
+            <span v-if="friend.description" class="block font-sans text-sm text-foreground/60 mt-0.5 truncate">
+              {{ friend.description }}
+            </span>
+          </span>
+          <span v-if="!friend.is_active" class="ml-auto shrink-0 font-sans text-xs tracking-[0.1em] text-foreground/60">
+            可能失效
+          </span>
+        </a>
+      </li>
+    </ul>
+  </section>
 </template>
-
-<style scoped>
-.friend-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));  /* 自适应列数 */
-  gap: 16px;
-}
-.friend-card {
-  display: flex; align-items: center; gap: 12px;
-  padding: 16px; background: #fff;
-  border: 1px solid #e5e7eb; border-radius: 8px;
-  text-decoration: none; color: inherit;
-}
-.friend-card:hover { border-color: #2563eb; }
-.friend-inactive { opacity: 0.55; }                     /* 失效友链整体灰暗 */
-.friend-badge {
-  font-size: 11px; color: #dc2626; background: #fef2f2;
-  padding: 1px 6px; border-radius: 999px; margin-left: 6px;
-}
-.friend-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-.friend-fallback {
-  display: flex; align-items: center; justify-content: center;
-  background: #e0e7ff; color: #4338ca; font-weight: bold;
-}
-.friend-name { font-weight: bold; }
-.friend-desc { color: #6b7280; font-size: 13px; }
-</style>

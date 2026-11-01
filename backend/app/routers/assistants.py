@@ -63,13 +63,13 @@ TOOLS = [
 # React循环
 
 # 定义call_tool
-def call_tool(name: str, args: dict) -> str:
+def call_tool(name: str, args: dict) -> tuple[str, list[dict]]:
     if name == "search_moments":
-        return search_moments()
+        return search_moments(), []
     elif name == "search_knowledge":
-        from ..services.rag import search
-        return search(args.get("query", ""))
-    return "未知工具"
+        from ..services.rag import search_with_sources
+        return search_with_sources(args.get("query", ""))
+    return "未知工具", []
 
 
 # 系统提示词
@@ -86,8 +86,10 @@ def run_agent(messages):
             for call in msg["tool_calls"]:
                 name = call["function"]["name"]
                 yield {"type": "tool", "content": f"正在调用：{name}"}
-                result = call_tool(name, json.loads(call["function"]["arguments"]))
+                result, sources = call_tool(name, json.loads(call["function"]["arguments"]))
                 messages.append({"role": "tool", "tool_call_id": call["id"], "content": result})
+                if sources:
+                    yield {"type": "sources", "sources": sources}
             continue
         else:
             yield {"type": "answer", "content": msg["content"]}
@@ -104,6 +106,8 @@ def event_stream(conv_id, is_new, history):
         for event in run_agent(messages):
             if event["type"] == "tool":
                 yield f'data: {json.dumps({"type": "tool", "content": event["content"]}, ensure_ascii=False)} \n\n'
+            elif event["type"] == "sources":
+                yield f'data: {json.dumps({"type": "sources", "sources": event["sources"]}, ensure_ascii=False)} \n\n'
             elif event["type"] == "answer":
                 db = SessionLocal()
                 try:

@@ -277,11 +277,11 @@ function logout() {
     <!-- ══════════ 文章管理 ══════════ -->
     <section class="card">
       <h3>发布文章</h3>
-      <p v-if="msg" :class="msg.startsWith('✅') ? 'ok' : 'err'">{{ msg }}</p>
+      <p v-if="msg" :class="msg.startsWith('✅') ? 'ok' : 'err'" :role="msg.startsWith('✅') ? 'status' : 'alert'">{{ msg }}</p>
       <form @submit.prevent="publishArticle">
-        <input v-model="title" type="text" placeholder="文章标题" class="input" />
-        <input v-model="category" type="text" placeholder="分类（默认'默认'）" class="input" />
-        <textarea v-model="content" placeholder="正文（支持 Markdown）" class="textarea"></textarea>
+        <input v-model="title" type="text" placeholder="文章标题" aria-label="文章标题" class="input" />
+        <input v-model="category" type="text" placeholder="分类（默认'默认'）" aria-label="文章分类" class="input" />
+        <textarea v-model="content" placeholder="正文（支持 Markdown）" aria-label="文章正文（支持 Markdown）" class="textarea"></textarea>
         <button type="submit" :disabled="submitting" class="btn-primary">
           {{ submitting ? '发布中...' : '发布文章' }}
         </button>
@@ -293,20 +293,20 @@ function logout() {
 
       <!-- 工具栏：搜索框 + 搜索按钮 + 批量删除 -->
       <div class="toolbar">
-        <input v-model="keyword" type="text" placeholder="按标题搜索..."
+        <input v-model="keyword" type="text" placeholder="按标题搜索..." aria-label="按标题搜索文章"
                class="input search-input" @keyup.enter="searchArticles" />
         <button @click="searchArticles" class="btn-primary btn-sm">搜索</button>
         <button @click="batchDelete" class="btn-del">
           批量删除{{ selectedIds.length ? `（${selectedIds.length}）` : '' }}
         </button>
       </div>
-      <p v-if="msg" :class="msg.startsWith('✅') ? 'ok' : 'err'">{{ msg }}</p>
+      <p v-if="msg" :class="msg.startsWith('✅') ? 'ok' : 'err'" :role="msg.startsWith('✅') ? 'status' : 'alert'">{{ msg }}</p>
 
       <p v-if="articles.length === 0" class="empty">暂无文章</p>
       <ul v-else class="list">
         <li v-for="article in articles" :key="article.id" class="row">
           <!-- 复选框：checked 由 selectedIds 决定，change 时加入/移出 -->
-          <input type="checkbox" class="checkbox"
+          <input type="checkbox" class="checkbox" :aria-label="'选择文章：' + article.title"
                  :checked="selectedIds.includes(article.id)"
                  @change="toggleOne(article.id)" />
           <div class="row-main">
@@ -340,10 +340,10 @@ function logout() {
     <!-- ══════════ 说说管理 ══════════ -->
     <section class="card">
       <h3>发布说说</h3>
-      <p v-if="momentMsg" :class="momentMsg.startsWith('✅') ? 'ok' : 'err'">{{ momentMsg }}</p>
+      <p v-if="momentMsg" :class="momentMsg.startsWith('✅') ? 'ok' : 'err'" :role="momentMsg.startsWith('✅') ? 'status' : 'alert'">{{ momentMsg }}</p>
       <form @submit.prevent="publishMoment">
-        <input v-model="momentContent" type="text" placeholder="说点什么..." class="input" />
-        <input v-model="momentImages" type="text" placeholder="图片 URL（可选，多张用英文逗号分隔）" class="input" />
+        <input v-model="momentContent" type="text" placeholder="说点什么..." aria-label="说说内容" class="input" />
+        <input v-model="momentImages" type="text" placeholder="图片 URL（可选，多张用英文逗号分隔）" aria-label="说说图片 URL" class="input" />
         <button type="submit" class="btn-primary">发布说说</button>
       </form>
     </section>
@@ -365,11 +365,11 @@ function logout() {
     <!-- ══════════ 友链管理 ══════════ -->
     <section class="card">
       <h3>新增友链</h3>
-      <p v-if="friendMsg" :class="friendMsg.startsWith('✅') ? 'ok' : 'err'">{{ friendMsg }}</p>
+      <p v-if="friendMsg" :class="friendMsg.startsWith('✅') ? 'ok' : 'err'" :role="friendMsg.startsWith('✅') ? 'status' : 'alert'">{{ friendMsg }}</p>
       <form @submit.prevent="addFriend">
-        <input v-model="friendName" type="text" placeholder="友链名称（必填）" class="input" />
-        <input v-model="friendUrl" type="text" placeholder="网址（必填，https://...）" class="input" />
-        <input v-model="friendDesc" type="text" placeholder="一句话介绍" class="input" />
+        <input v-model="friendName" type="text" placeholder="友链名称（必填）" aria-label="友链名称" class="input" />
+        <input v-model="friendUrl" type="text" placeholder="网址（必填，https://...）" aria-label="友链网址" class="input" />
+        <input v-model="friendDesc" type="text" placeholder="一句话介绍" aria-label="友链介绍" class="input" />
         <button type="submit" class="btn-primary">添加友链</button>
       </form>
     </section>
@@ -391,13 +391,13 @@ function logout() {
     <!-- ══════════ 项目管理 ══════════ -->
     <section class="card">
       <h3>新增项目</h3>
-      <p v-if="projMsg" :class="projMsg.startsWith('✅') ? 'ok' : 'err'">{{ projMsg }}</p>
+      <p v-if="projMsg" :class="projMsg.startsWith('✅') ? 'ok' : 'err'" :role="projMsg.startsWith('✅') ? 'status' : 'alert'">{{ projMsg }}</p>
       <form @submit.prevent="addProject">
-        <input v-model="projName" type="text" placeholder="项目名称（必填）" class="input" />
-        <input v-model="projDesc" type="text" placeholder="简介" class="input" />
-        <input v-model="projRepo" type="text" placeholder="GitHub 仓库地址" class="input" />
-        <input v-model="projStars" type="number" placeholder="star 数" class="input" />
-        <input v-model="projTags" type="text" placeholder="技术标签（逗号分隔）" class="input" />
+        <input v-model="projName" type="text" placeholder="项目名称（必填）" aria-label="项目名称" class="input" />
+        <input v-model="projDesc" type="text" placeholder="简介" aria-label="项目简介" class="input" />
+        <input v-model="projRepo" type="text" placeholder="GitHub 仓库地址" aria-label="GitHub 仓库地址" class="input" />
+        <input v-model="projStars" type="number" placeholder="star 数" aria-label="star 数" class="input" />
+        <input v-model="projTags" type="text" placeholder="技术标签（逗号分隔）" aria-label="技术标签" class="input" />
         <button type="submit" class="btn-primary">添加项目</button>
       </form>
     </section>
@@ -419,70 +419,93 @@ function logout() {
 </template>
 
 <style scoped>
-.admin { max-width: 720px; margin: 0 auto; }
-.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-.card h3 { margin-bottom: 16px; }
-.input {
-  width: 100%; padding: 10px 12px; margin-bottom: 12px;
-  border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box;
+/* 管理后台：操作优先，但沿用 Editorial 的平面/发丝线语言 */
+.admin { max-width: 56rem; margin: 0 auto; }
+.admin-header {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  margin-bottom: 2rem; padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.1);
 }
+.admin-header h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 300; letter-spacing: -0.01em; }
+
+.card { border-top: 1px solid rgba(28, 28, 28, 0.1); padding: 1.75rem 0; }
+.card h3 { margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; }
+
+.input,
 .textarea {
-  width: 100%; min-height: 160px; padding: 10px 12px; margin-bottom: 12px;
-  border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box;
-  font-family: inherit; resize: vertical;
+  width: 100%; padding: 0.7rem 0.85rem; margin-bottom: 0.75rem;
+  border: 1px solid rgba(28, 28, 28, 0.25); border-radius: 0;
+  background: transparent; color: var(--color-foreground);
+  font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.5;
+  box-sizing: border-box; transition: border-color 0.15s ease;
 }
+.input:hover,
+.textarea:hover { border-color: rgba(28, 28, 28, 0.45); }
+.input:focus,
+.textarea:focus { border-color: var(--color-foreground); }
+.textarea { min-height: 160px; resize: vertical; }
+
 .btn-primary {
-  padding: 10px 24px; background: #2563eb; color: #fff;
-  border: none; border-radius: 8px; cursor: pointer;
+  padding: 0.65rem 1.25rem; background: transparent; color: var(--color-foreground);
+  border: 1px solid var(--color-foreground); border-radius: 0; cursor: pointer;
+  font-family: var(--font-sans); font-size: 0.8125rem; letter-spacing: 0.12em;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
-.btn-primary:disabled { opacity: 0.6; }
+.btn-primary:hover:not(:disabled) { background: var(--color-foreground); color: var(--color-background); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-danger {
-  padding: 8px 16px; background: #dc2626; color: #fff;
-  border: none; border-radius: 8px; cursor: pointer;
+  padding: 0.55rem 1rem; background: transparent; color: var(--color-foreground);
+  border: 1px solid rgba(28, 28, 28, 0.3); border-radius: 0; cursor: pointer;
+  font-family: var(--font-sans); font-size: 0.8125rem; letter-spacing: 0.1em;
+  transition: border-color 0.15s ease;
 }
+.btn-danger:hover { border-color: var(--color-foreground); }
 .btn-del {
-  padding: 6px 14px; background: #fee2e2; color: #dc2626;
-  border: 1px solid #fecaca; border-radius: 6px; cursor: pointer; font-size: 13px;
+  padding: 0.35rem 0.75rem; background: transparent; color: rgba(28, 28, 28, 0.7);
+  border: 1px solid rgba(28, 28, 28, 0.2); border-radius: 0; cursor: pointer;
+  font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.08em;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
-.btn-del:hover { background: #fecaca; }
-.ok { color: #16a34a; margin-bottom: 12px; }
-.err { color: #dc2626; margin-bottom: 12px; }
-.empty { color: #9ca3af; }
+.btn-del:hover { border-color: var(--color-foreground); color: var(--color-foreground); }
+
+.ok { color: rgba(28, 28, 28, 0.8); margin-bottom: 0.75rem; }
+.err { color: var(--color-foreground); margin-bottom: 0.75rem; font-weight: 500; }
+.empty { color: rgba(28, 28, 28, 0.6); }
 .list { list-style: none; }
 .row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0; border-bottom: 1px solid #f3f4f6;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: 0.85rem 0; border-bottom: 1px solid rgba(28, 28, 28, 0.08);
 }
-.row-title { font-weight: 600; }
-.row-summary { color: #6b7280; font-size: 13px; margin: 4px 0; }
-.row-meta { color: #9ca3af; font-size: 13px; margin-top: 2px; }
-.stars { color: #d97706; font-size: 13px; }
+.row-title { font-weight: 500; }
+.row-summary { color: rgba(28, 28, 28, 0.6); font-size: 0.8125rem; margin: 0.25rem 0; }
+.row-meta { color: rgba(28, 28, 28, 0.6); font-size: 0.75rem; margin-top: 0.15rem; letter-spacing: 0.04em; }
+.stars { color: rgba(28, 28, 28, 0.6); font-size: 0.75rem; }
 
 /* ===== 搜索/批量删除工具栏 ===== */
-.toolbar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
-.search-input { margin-bottom: 0; flex: 1; }
-.btn-sm { padding: 8px 16px; font-size: 14px; }
+.toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; align-items: center; flex-wrap: wrap; }
+.search-input { margin-bottom: 0; flex: 1; min-width: 12rem; }
+.btn-sm { padding: 0.55rem 1rem; font-size: 0.8125rem; }
 
 /* ===== 复选框 + 行布局 ===== */
-.checkbox { width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-.row-main { flex: 1; margin-left: 10px; }
+.checkbox { width: 1rem; height: 1rem; cursor: pointer; flex-shrink: 0; accent-color: var(--color-foreground); }
+.row-main { flex: 1; margin-left: 0.6rem; min-width: 0; }
 
 /* ===== 列表底部（全选 + 页信息） ===== */
 .list-footer {
   display: flex; justify-content: space-between; align-items: center;
-  padding-top: 12px; color: #6b7280; font-size: 13px;
+  padding-top: 0.75rem; color: rgba(28, 28, 28, 0.6); font-size: 0.75rem;
 }
-.check-all { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
-.page-info { color: #9ca3af; }
+.check-all { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none; }
+.page-info { color: rgba(28, 28, 28, 0.6); }
 
 /* ===== 原生分页 ===== */
-.pagination { display: flex; gap: 6px; margin-top: 16px; justify-content: center; }
+.pagination { display: flex; gap: 0.35rem; margin-top: 1rem; justify-content: center; flex-wrap: wrap; }
 .page-btn {
-  padding: 6px 12px; border: 1px solid #d1d5db; background: #fff;
-  border-radius: 6px; cursor: pointer; font-size: 14px; color: #374151;
+  padding: 0.35rem 0.7rem; border: 1px solid rgba(28, 28, 28, 0.2); background: transparent;
+  border-radius: 0; cursor: pointer; font-size: 0.8125rem; color: rgba(28, 28, 28, 0.7);
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
-.page-btn:hover:not(:disabled) { border-color: #2563eb; color: #2563eb; }
-.page-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
-.page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.page-btn:hover:not(:disabled) { border-color: rgba(28, 28, 28, 0.5); color: var(--color-foreground); }
+.page-btn.active { background: var(--color-foreground); color: var(--color-background); border-color: var(--color-foreground); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 </style>
