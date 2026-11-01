@@ -180,6 +180,20 @@ onMounted(() => {
         </a>
       </div>
     </section>
+
+    <!-- ========== 收尾深墨带（封底）========== -->
+    <section class="closing-band">
+      <span class="closing-mark" aria-hidden="true">y</span>
+      <div class="closing-inner">
+        <router-link to="/ai-assistant" class="closing-cta font-serif">
+          和 AI 助手聊聊 <span aria-hidden="true">→</span>
+        </router-link>
+        <div class="closing-links font-sans">
+          <router-link to="/articles">阅读文章</router-link>
+          <router-link to="/projects">查看项目</router-link>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -253,5 +267,79 @@ onMounted(() => {
 @media (max-width: 767px) {
   .hero-cover { padding: 64px 24px 72px; }
   .hero-mark { top: -0.16em; font-size: 14rem; opacity: 0.18; }
+}
+
+/* 封底：与 hero 呼应的深墨带，给页面一个收束 */
+.closing-band {
+  position: relative;
+  overflow: hidden;
+  margin-inline: calc(50% - 50vw);
+  padding: 80px max(24px, calc(50vw - 28rem)) 88px;
+  background: var(--color-ink-deep);
+  color: var(--color-background);
+  border-top: 1px solid rgba(212, 163, 115, 0.55);
+}
+
+.closing-inner {
+  position: relative;
+  z-index: 10;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.closing-cta {
+  display: inline-block;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-background);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.1em;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.closing-cta:hover {
+  color: var(--color-primary);
+  border-color: rgba(212, 163, 115, 0.6);
+}
+
+.closing-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.closing-links a {
+  color: rgba(249, 248, 246, 0.7);
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  border-bottom: 1px solid rgba(249, 248, 246, 0.3);
+  padding-bottom: 2px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.closing-links a:hover {
+  color: var(--color-background);
+  border-color: var(--color-background);
+}
+
+.closing-mark {
+  position: absolute;
+  right: -0.05em;
+  bottom: -0.32em;
+  z-index: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(16rem, 30vw, 26rem);
+  line-height: 0.75;
+  color: var(--color-primary);
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  .closing-band { padding: 64px 24px 72px; }
+  .closing-mark { display: none; }
 }
 </style>

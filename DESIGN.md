@@ -91,7 +91,7 @@ The interface is mostly hand-set Tailwind typesetting over three tokens, with th
 - Depth through rules, whitespace, and ink opacity — never through elevation.
 - Accent is rare: the active navigation item is its only routine home.
 - A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.
-- Dark cover bands (home hero, article header) alternate with Paper, giving the page a magazine-like rhythm without introducing a second hue.
+- Dark cover bands (home hero, article header) alternate with Paper, and a closing Deep Ink band ends the home page, giving it a magazine cover-to-back-cover rhythm without introducing a second hue.
 - Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8.
 
 ## Colors
@@ -185,7 +185,7 @@ An oversized italic serif "Y" (clamp 15–28rem) sits at the hero's right edge i
 Article detail opens with a real folio ("NO. 09") set in Warm Sand on the dark cover, and the summary is an italic serif standfirst with a 2.5rem Warm Sand opening quote in the left margin (hidden on mobile).
 
 ### Signature: Cover Band
-A full-bleed Deep Ink field opens the home page and every article. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule closes its bottom edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. Never round, shadow, or gradient the band.
+A full-bleed Deep Ink field opens the home page and every article, and a matching band closes the home page. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule marks its opening or closing edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. The closing band carries one large serif invitation and two small links, plus a lowercase italic "y" watermark; never round, shadow, or gradient the band.
 
 ## Do's and Don'ts
 

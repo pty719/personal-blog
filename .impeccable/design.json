@@ -175,7 +175,7 @@
     {
       "name": "Cover Band",
       "kind": "custom",
-      "description": "Full-bleed Deep Ink field for the home hero and article header; Paper text, Warm Sand marks, 1px Warm Sand bottom rule.",
+      "description": "Full-bleed Deep Ink field for the home hero, article header, and home closing band; Paper text, Warm Sand marks, 1px Warm Sand edge rule.",
       "html": "<section class=\"ds-cover\"><div class=\"ds-cover-inner\"><p class=\"ds-cover-kicker\">你好，我是</p><h1>yizhiyu</h1><p class=\"ds-cover-copy\">智能体应用开发者（求职中）</p></div></section>",
       "css": ".ds-cover { margin-inline: calc(50% - 50vw); padding: 88px max(24px, calc(50vw - 28rem)) 96px; background: var(--color-ink-deep); color: var(--color-background); border-bottom: 1px solid rgba(212, 163, 115, 0.55); } .ds-cover-inner { max-width: 56rem; margin: 0 auto; } .ds-cover-kicker { margin: 0 0 1rem; font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.25em; color: rgba(249, 248, 246, 0.7); } .ds-cover h1 { margin: 0; font-family: var(--font-serif); font-size: 3.75rem; font-weight: 300; line-height: 1.05; letter-spacing: -0.025em; color: var(--color-background); } .ds-cover-copy { margin-top: 1.5rem; max-width: 36rem; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(249, 248, 246, 0.84); }"
     },
@@ -204,7 +204,7 @@
       "Depth through rules, whitespace, and ink opacity — never through elevation.",
       "Accent is rare: the active navigation item is its only routine home.",
       "A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.",
-      "A full-bleed Deep Ink cover opens the home page and every article, alternating with Paper for a magazine cover-and-page rhythm.",
+      "A full-bleed Deep Ink cover opens the home page and every article, and a closing Deep Ink band ends the home page, for a magazine cover-to-back-cover rhythm.",
       "Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8."
     ],
     "rules": [
