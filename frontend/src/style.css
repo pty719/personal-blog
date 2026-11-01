@@ -14,8 +14,9 @@
    bg-background / text-foreground / border-border、font-serif / font-sans */
 @theme {
   --color-background: #f9f8f6;   /* Editorial 暖米底 */
-  --color-foreground: #1c1c1c;   /* Editorial 柔和黑（透明层次直接用 /60 /40 /10） */
+  --color-foreground: #1c1c1c;   /* Editorial 柔和黑（透明层次直接用 /70 /40 /10） */
   --color-border: #1c1c1c;       /* 分隔线同源，使用时用 /10 透明度 */
+  --color-ink-deep: #171411;     /* 深墨封面场：比 Ink 更暖、更沉，用于全宽封面带 */
 
   /* 暖色点缀（Editorial 单色基底之上局部使用，仅激活态/高亮/编号） */
   --color-primary: #d4a373;      /* 主色：暖沙（仅用于 1px 规则/装饰） */
@@ -44,6 +45,7 @@
     background: #f9f8f6;   /* 顶到最外层，防止滚动露白 */
   }
   body {
+    overflow-x: clip;          /* 全宽封面带用负边距出血，防止出现横向滚动条 */
     background-color: var(--color-background);
     /* 纸纹：极轻的 SVG 噪点（3%），让 Paper 不是一块平色 */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");

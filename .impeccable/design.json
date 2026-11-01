@@ -34,6 +34,21 @@
           "oklch(97% 0 0)"
         ]
       },
+      "ink-deep": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "#171411",
+        "tonalRamp": [
+          "oklch(10% 0.006 60)",
+          "oklch(16% 0.008 60)",
+          "oklch(24% 0.010 60)",
+          "oklch(34% 0.012 60)",
+          "oklch(48% 0.012 60)",
+          "oklch(64% 0.010 60)",
+          "oklch(81% 0.008 60)",
+          "oklch(94% 0.006 60)"
+        ]
+      },
       "warm-sand": {
         "role": "primary",
         "displayName": "Warm Sand",
@@ -158,6 +173,13 @@
       "css": ".ds-article-row { border-left: 2px solid rgba(28, 28, 28, 0.1); padding: 24px 8px 24px 20px; transition: background-color 0.15s ease, border-color 0.15s ease; cursor: pointer; } .ds-article-row:hover { border-left-color: rgba(28, 28, 28, 0.4); background: rgba(28, 28, 28, 0.05); } .ds-article-row h3 { margin: 0; font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; line-height: 1.375; letter-spacing: -0.01em; color: var(--color-foreground); } .ds-article-title { background-image: linear-gradient(transparent 60%, rgba(212, 163, 115, 0.26) 60%, rgba(212, 163, 115, 0.26) 90%, transparent 90%); background-repeat: no-repeat; background-size: 0% 100%; padding-bottom: 0.05em; transition: background-size 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); } .ds-article-row:hover .ds-article-title { background-size: 100% 100%; } .ds-article-row p { margin: 8px 0 0; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(28, 28, 28, 0.9); } .ds-article-row .ds-article-meta { margin-top: 12px; font-size: 0.875rem; color: rgba(28, 28, 28, 0.7); }"
     },
     {
+      "name": "Cover Band",
+      "kind": "custom",
+      "description": "Full-bleed Deep Ink field for the home hero and article header; Paper text, Warm Sand marks, 1px Warm Sand bottom rule.",
+      "html": "<section class=\"ds-cover\"><div class=\"ds-cover-inner\"><p class=\"ds-cover-kicker\">你好，我是</p><h1>yizhiyu</h1><p class=\"ds-cover-copy\">智能体应用开发者（求职中）</p></div></section>",
+      "css": ".ds-cover { margin-inline: calc(50% - 50vw); padding: 88px max(24px, calc(50vw - 28rem)) 96px; background: var(--color-ink-deep); color: var(--color-background); border-bottom: 1px solid rgba(212, 163, 115, 0.55); } .ds-cover-inner { max-width: 56rem; margin: 0 auto; } .ds-cover-kicker { margin: 0 0 1rem; font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.25em; color: rgba(249, 248, 246, 0.7); } .ds-cover h1 { margin: 0; font-family: var(--font-serif); font-size: 3.75rem; font-weight: 300; line-height: 1.05; letter-spacing: -0.025em; color: var(--color-background); } .ds-cover-copy { margin-top: 1.5rem; max-width: 36rem; font-family: var(--font-sans); font-size: 1.125rem; line-height: 2rem; color: rgba(249, 248, 246, 0.84); }"
+    },
+    {
       "name": "Hero Mark",
       "kind": "custom",
       "description": "Oversized italic serif letter cropped at the hero edge; a watermark, never content.",
@@ -182,6 +204,7 @@
       "Depth through rules, whitespace, and ink opacity — never through elevation.",
       "Accent is rare: the active navigation item is its only routine home.",
       "A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.",
+      "A full-bleed Deep Ink cover opens the home page and every article, alternating with Paper for a magazine cover-and-page rhythm.",
       "Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8."
     ],
     "rules": [

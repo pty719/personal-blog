@@ -59,28 +59,28 @@ onMounted(() => {
 
 <template>
   <div class="max-w-6xl mx-auto px-6 md:px-12">
-    <!-- ========== 博主介绍（hero）========== -->
-    <section class="relative overflow-hidden py-20 md:py-28 border-b border-foreground/10">
+    <!-- ========== 博主介绍（深墨封面带）========== -->
+    <section class="hero-cover">
       <span class="hero-mark" aria-hidden="true">Y</span>
-      <div class="relative z-10">
-        <p class="font-sans text-xs md:text-sm text-foreground/70 tracking-[0.25em]">你好，我是</p>
-        <h1 class="font-serif font-light tracking-tight text-5xl md:text-6xl leading-[1.05] mt-4">
+      <div class="hero-inner">
+        <p class="hero-kicker font-sans text-xs md:text-sm tracking-[0.25em]">你好，我是</p>
+        <h1 class="hero-title font-serif font-light tracking-tight text-5xl md:text-6xl leading-[1.05] mt-4">
           yizhiyu
         </h1>
-        <p class="font-sans text-base md:text-lg text-foreground/90 max-w-xl mt-6 leading-8">
+        <p class="hero-copy font-sans text-base md:text-lg max-w-xl mt-6 leading-8">
           智能体应用开发者（求职中）—— 用 Python 构建会思考、能检索、懂记忆的 AI 应用。
           这个站点的 AI 助手能调用站内工具、RAG 检索知识库、记住对话上下文。
         </p>
         <div class="mt-10 flex flex-wrap items-center gap-6">
           <router-link
             to="/ai-assistant"
-            class="inline-block border border-foreground px-6 py-3 font-sans text-sm tracking-[0.15em] hover:bg-foreground hover:text-background transition-colors"
+            class="hero-cta font-sans text-sm tracking-[0.15em]"
           >
             和 AI 助手聊聊 →
           </router-link>
           <router-link
             to="/articles"
-            class="font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+            class="hero-link font-sans text-sm tracking-[0.15em]"
           >
             阅读文章
           </router-link>
@@ -184,7 +184,53 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* 超大字：作为纸面上的水印，不承载信息；裁切在 hero 右缘 */
+/* 深墨封面带：全宽出血，内容仍对齐 56rem 阅读列 */
+.hero-cover {
+  position: relative;
+  overflow: hidden;
+  margin-inline: calc(50% - 50vw);
+  margin-top: -48px;              /* 抵消 App main 的 pt-12，贴住导航下沿 */
+  padding: 88px max(24px, calc(50vw - 28rem)) 96px;
+  background: var(--color-ink-deep);
+  color: var(--color-background);
+  border-bottom: 1px solid rgba(212, 163, 115, 0.55);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 10;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.hero-kicker { color: rgba(249, 248, 246, 0.7); }
+.hero-title { color: var(--color-background); }
+.hero-copy { color: rgba(249, 248, 246, 0.84); }
+
+.hero-cta {
+  display: inline-block;
+  padding: 12px 24px;
+  border: 1px solid rgba(249, 248, 246, 0.8);
+  color: var(--color-background);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.hero-cta:hover {
+  background: var(--color-background);
+  color: var(--color-ink-deep);
+}
+
+.hero-link {
+  color: rgba(249, 248, 246, 0.84);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(249, 248, 246, 0.35);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.hero-link:hover {
+  color: var(--color-background);
+  border-color: var(--color-background);
+}
+
+/* 超大字：深墨场上的暖沙水印，不承载信息 */
 .hero-mark {
   position: absolute;
   top: -0.32em;
@@ -193,14 +239,19 @@ onMounted(() => {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(15rem, 30vw, 28rem);
+  font-size: clamp(16rem, 32vw, 30rem);
   line-height: 0.8;
   color: var(--color-primary);
-  opacity: 0.16;
+  opacity: 0.22;
   pointer-events: none;
   user-select: none;
 }
+
+@media (min-width: 768px) {
+  .hero-cover { margin-top: -64px; }  /* 抵消 App main 的 md:pt-16 */
+}
 @media (max-width: 767px) {
-  .hero-mark { top: -0.18em; font-size: 14rem; opacity: 0.12; }
+  .hero-cover { padding: 64px 24px 72px; }
+  .hero-mark { top: -0.16em; font-size: 14rem; opacity: 0.18; }
 }
 </style>

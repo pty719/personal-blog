@@ -4,6 +4,7 @@ description: 编辑杂志风的个人博客与 Agent 作品集
 colors:
   paper: "#f9f8f6"
   ink: "#1c1c1c"
+  ink-deep: "#171411"
   warm-sand: "#d4a373"
   warm-sand-ink: "#8f6036"
 typography:
@@ -90,6 +91,7 @@ The interface is mostly hand-set Tailwind typesetting over three tokens, with th
 - Depth through rules, whitespace, and ink opacity — never through elevation.
 - Accent is rare: the active navigation item is its only routine home.
 - A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.
+- Dark cover bands (home hero, article header) alternate with Paper, giving the page a magazine-like rhythm without introducing a second hue.
 - Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8.
 
 ## Colors
@@ -103,6 +105,7 @@ A single warm neutral pair with one restrained accent; the palette's whole chara
 ### Neutral
 - **Paper** (#f9f8f6): the page ground. Not pure white — it carries a faint warm cast so long reading feels like paper rather than a screen.
 - **Ink** (#1c1c1c): text, borders, and rules. Soft black, never #000. All secondary text is Ink with opacity, not a separate gray.
+- **Deep Ink** (#171411): the full-bleed cover field behind the home hero and article header. Warmer and deeper than Ink; Paper text and Warm Sand marks sit on it. Never used as body text on Paper, never as a gradient.
 
 ### Named Rules
 **The One Warm Voice Rule.** Warm Sand and Warm Sand Ink together cover ≤10% of any screen. Text uses Warm Sand Ink (#8f6036); Warm Sand (#d4a373) is reserved for 1px rules and non-text marks. Never use either for body text, large fills, or a second competing accent.
@@ -179,7 +182,10 @@ Article lists are rows, not cards: a 2px left rule at Ink/10 that darkens to Ink
 An oversized italic serif "Y" (clamp 15–28rem) sits at the hero's right edge in Warm Sand at 16% opacity and is cropped by the section. It is a watermark: `aria-hidden`, pointer-events none, never content. On mobile it drops to 14rem at 12%.
 
 ### Signature: Article Folio & Standfirst
-Article detail opens with a real folio ("NO. 09") set in Warm Sand Ink, and the summary is an italic serif standfirst with a 2.5rem Warm Sand opening quote in the left margin (hidden on mobile).
+Article detail opens with a real folio ("NO. 09") set in Warm Sand on the dark cover, and the summary is an italic serif standfirst with a 2.5rem Warm Sand opening quote in the left margin (hidden on mobile).
+
+### Signature: Cover Band
+A full-bleed Deep Ink field opens the home page and every article. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule closes its bottom edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. Never round, shadow, or gradient the band.
 
 ## Do's and Don'ts
 
