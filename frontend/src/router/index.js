@@ -13,6 +13,7 @@ const routes = [
   { path: '/ai-partner', name: 'ai-partner', component: () => import('../views/AiPartnerView.vue'), meta: { title: 'AI 伴侣' } },
   { path: '/ai-assistant', name: 'ai-assistant', component: () => import('../views/AssistantView.vue'), meta: { title: 'AI 助手', wide: true } },
   { path: '/ai-news', name: 'AiNews', component: () => import('../views/AiNewsView.vue'), meta: { title: 'AI 新闻', wide: true } },
+  { path: '/privacy', name: 'privacy', component: () => import('../views/PrivacyView.vue'), meta: { title: '隐私政策' } },
   { path: '/admin', name: 'admin', component: () => import('../views/AdminView.vue'), meta: { title: '管理后台' } },
   { path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: { title: '登录' } },
   { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../views/NotFoundView.vue'), meta: { title: '页面不存在' } },

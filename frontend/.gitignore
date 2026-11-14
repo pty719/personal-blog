@@ -34,3 +34,6 @@ src/plugins/impeccable-live.client.ts
 # 测试产物
 test-results/
 playwright-report/
+
+# gstack 浏览报告与截图
+.gstack/

@@ -7,6 +7,7 @@ colors:
   ink-deep: "#171411"
   warm-sand: "#d4a373"
   warm-sand-ink: "#8f6036"
+  interaction-green: "#15803d"
 typography:
   display:
     fontFamily: 'Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", serif'
@@ -19,6 +20,18 @@ typography:
     fontSize: "3rem"
     fontWeight: 300
     lineHeight: 1.1
+    letterSpacing: "-0.025em"
+  feature:
+    fontFamily: 'Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", serif'
+    fontSize: "2.5rem"
+    fontWeight: 300
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
+  section:
+    fontFamily: 'Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", serif'
+    fontSize: "1.875rem"
+    fontWeight: 300
+    lineHeight: 1.2
     letterSpacing: "-0.025em"
   title:
     fontFamily: 'Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", serif'
@@ -78,7 +91,7 @@ components:
 
 **Creative North Star: "The Quiet Editorial"**
 
-This is a site that earns trust by typesetting, not by decoration. The page behaves like a well-set printed journal read on warm paper: one ink, one paper, one warm accent used like a single editorial mark. Nothing floats, nothing glows, nothing is rounded. Authority comes from the type being set correctly — a serif voice for what the site has to say, a sans voice for the machinery around it — and from the confidence of wide margins and 1px rules.
+This is a site that earns trust by typesetting, not by decoration. The page behaves like a well-set printed journal read on warm paper: one ink, one paper, one warm accent used like a single editorial mark. Nothing floats, nothing glows, nothing is rounded on the Editorial surfaces; the two documented interactive scenes below are the only places with their own soft surfaces. Authority comes from the type being set correctly — a serif voice for what the site has to say, a sans voice for the machinery around it — and from the confidence of wide margins and 1px rules.
 
 The system is deliberately lean because the product is a job-hunting portfolio disguised as a personal blog. A recruiter should read the first screen in seconds; the quietness is what makes the Agent capability (a live assistant, streaming answers, tool calls) feel credible rather than promotional. The editorial restraint is also the engineering argument: the site does not need visual noise to hold attention.
 
@@ -86,11 +99,11 @@ The interface is mostly hand-set Tailwind typesetting over three tokens, with th
 
 **Key Characteristics:**
 - Two colors of substance — warm paper (#f9f8f6) and soft ink (#1c1c1c) — plus one warm accent (#d4a373).
-- Strictly rectilinear: 0px radius, 1px hairline borders, never a shadow.
+- Strictly rectilinear on Editorial surfaces: 0px radius, 1px hairline borders, never a shadow; the interactive scenes are scoped exceptions.
 - Two type voices: light serif for headings and content titles, sans for navigation, labels, meta, and body.
 - Depth through rules, whitespace, and ink opacity — never through elevation.
 - Accent is rare: the active navigation item is its only routine home.
-- A graphic layer made of type and paper, not imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, and a marker-sweep hover.
+- A graphic layer made of type and paper, with no photographic imagery: a faint paper grain, 2.5rem Warm Sand section rules, a cropped oversized serif hero mark, a marker-sweep hover, and the home cover's oversized serif Y mark at low opacity.
 - Dark cover bands (home hero, article header) alternate with Paper, and a closing Deep Ink band ends the home page, giving it a magazine cover-to-back-cover rhythm without introducing a second hue.
 - Generous vertical rhythm: 56–112px section spacing, wide margins, long-form line height 1.7–1.8.
 
@@ -123,7 +136,9 @@ A single warm neutral pair with one restrained accent; the palette's whole chara
 ### Hierarchy
 - **Display** (300, 3rem → 3.75rem at md, line-height 1.05, tracking -0.025em): the home hero name only. One per page.
 - **Headline** (300, 2.25rem → 3rem, line-height 1.1): page titles such as AI 新闻. One per surface.
-- **Title** (400, 1.25rem → 1.5rem, line-height 1.375): article and news item titles, section headings (1.5rem → 1.875rem for section h2).
+- **Feature** (300, 1.75rem → 2.5rem, line-height 1.15, tracking -0.02em): the home closing band title（“最近更新”）. One per page end.
+- **Section** (300, 1.5rem → 1.875rem, line-height 1.2, tracking -0.025em): section openers paired with the warm rule. Every section heading uses this step.
+- **Title** (400, 1.25rem → 1.5rem, line-height 1.375): article and news item titles, list headings.
 - **Body** (450, 1rem / 1.7; long-form summary 1.125rem / 2rem): reading copy. Keep prose measure around 65–75 characters.
 - **Label** (500, 0.75–0.875rem, tracking 0.15–0.25em): navigation, dates, meta, source chips, eyebrows. Never set a label in serif.
 
@@ -145,7 +160,7 @@ Responsive behavior is type-first: the md breakpoint mainly increases heading si
 This system is flat by doctrine. There are no shadows, no rounded corners, and no elevated surfaces at rest or in any state. Depth is conveyed entirely through 1px Ink hairlines at 10% opacity, whitespace, type weight, and a 5% Ink hover wash. State changes are opacity and color shifts, not lifting.
 
 ### Named Rules
-**The Flat-By-Default Rule.** Zero radius and zero shadow, always. If two surfaces need separation, use a 1px Ink hairline at 10% or more whitespace — never a box-shadow.
+**The Flat-By-Default Rule.** Zero radius and zero shadow on Editorial surfaces. The documented interactive scenes are the only exception. If two surfaces need separation, use a 1px Ink hairline at 10% or more whitespace — never a box-shadow.
 
 ## Shapes
 
@@ -166,12 +181,13 @@ Strictly rectilinear. Every corner is square (0px); there are no pills, no round
 - **No cards.** Editorial surfaces never wrap content in cards. Sections are separated by 1px Ink/10 rules and whitespace. This absence is deliberate: a card would re-introduce the boxed, dashboard-like feel the system rejects.
 
 ### Inputs / Fields
-No Editorial input pattern exists yet. New inputs should follow the Flat + hairline doctrine (square, 1px Ink border, transparent or Paper fill) rather than inheriting the legacy 8px-radius gray fields. Treat this as provisional guidance until the first Editorial form is built.
+No Editorial input pattern exists yet. New inputs should follow the Flat + hairline doctrine (square, 1px Ink border, transparent or Paper fill) rather than inheriting the legacy 8px-radius gray fields. Treat this as provisional guidance until the first Editorial form is built. The AI assistant ocean composer is a scoped interactive exception, not the Editorial form pattern.
 
 ### Navigation
 - Sticky at the top, Paper fill, 1px Ink/10 bottom border, 20–24px vertical padding.
 - **Logo:** serif, normal weight, 1.125–1.25rem, tracking 0.2em — the site name as a masthead.
 - **Links:** sans label, 500 weight, Ink at 70% opacity at rest; full Ink on hover. An underline scales in from the right over 400ms. The active route is the only place Warm Sand appears, as colored text.
+- **GitHub:** one inline GitHub mark (18px, Ink at 70% opacity) closes the link row; it is the only external link in the masthead and follows the same hover/focus treatment.
 - **Mobile:** wraps to two rows at narrow widths; type scale and states stay identical.
 
 ### Signature: Section Header
@@ -189,10 +205,30 @@ Article detail opens with a real folio ("NO. 09") set in Warm Sand on the dark c
 ### Signature: Cover Band
 A full-bleed Deep Ink field opens the home page and every article, and a matching band closes the home page. It runs edge to edge via `margin-inline: calc(50% - 50vw)` with matching padding so its content still aligns to the 56rem reading column; a 1px Warm Sand rule marks its opening or closing edge. Headings switch to Paper, secondary text to Paper/70, and the oversized serif mark keeps Warm Sand. The closing band carries a serif "最近更新" heading and the latest article/moment rows, plus a lowercase italic "y" watermark; never round, shadow, or gradient the band.
 
+### Signature: Cover Mark
+The home hero carries no image. Its right edge holds one oversized serif "Y" in Warm Sand at about 22% opacity, vertically centred so it anchors the right-middle, cropped only by the right edge; it is a brand watermark, not an illustration. On mobile it returns to the top-right crop. The hero copy stays on the left, and the mark is allowed to sit behind type only at this opacity. Never replace it with stock imagery, gradients, or decorative blobs. If the right side needs more weight, adjust the mark's scale or crop, or the cover height; do not add filler decoration.
+
+## Interactive Exceptions
+
+The Editorial system still governs the site shell: navigation, page headers, article cover and body typography, section headers, related rows, and the footer. Two self-contained interactive scenes are the only sanctioned exceptions. Each exception stops at its scene edge and is never a reason to soften or round the surrounding Editorial UI.
+
+### AI assistant ocean island
+- **Scope:** `.ocean-stage` and its conversation overlay only.
+- **Allowed:** 14px composer, 8px send, 7px History, 8px backdrop blur, the History pill's light shadow, `#fff` stage ground, the `#d2d3cd` border, `#131612` text, and the Geist / Inter / Arial + Geist Mono type stack for controls. One bridge back to the publication: the island headline (`what’s on your mind?`) uses the site serif stack.
+- **Not allowed:** any of those tokens on the site nav, page headers, article cover/body, section headers, related rows, footer, or the assistant page's below-the-stage panels.
+- **Why:** the ASCII ocean is an instrument; its soft chrome reads as a separate product surface. The stage is a white card on Paper by intention, and the serif headline is the deliberate handshake that keeps the instrument in the site's voice.
+
+### Article selection-flower scene
+- **Scope:** `.selection-flower-content` (the article body) only.
+- **Allowed:** the interaction green `#15803d` selection with white text (5.02:1; the spec's `#2fca4e` with white was 2.17:1 and failed AA), and the seven-color flower palette (`#f21b3f`, `#ffb35b`, `#f4d64c`, `#9bc9ec`, `#a47bdf`, `#f1afd0`, `#fff7db`).
+- **Not allowed:** the green or the flower palette on the article cover, TOC rail, related rows, footer, or the site-wide selection. The site-wide selection remains Warm Sand.
+- **Discoverability:** the article cover carries one quiet 12px mono line (`拖选正文 · 文字会开花`). It is the only place the interaction is advertised; no toolbar, badge, or popover.
+- **Why:** the selection is the trigger for the flowers and must be opaque enough to hide the plants. It is an interaction color, not a second brand accent.
+
 ## Do's and Don'ts
 
 ### Do:
-- **Do** build every new public page from Paper, Ink, and Warm Sand only; keep the accent at or below 10% of the screen.
+- **Do** build every new public page from Paper, Ink, and Warm Sand only outside the documented interactive scenes; keep the warm accent at or below 10% of the screen.
 - **Do** set headings in the serif stack at light weights and everything functional in the sans stack.
 - **Do** separate sections with 1px Ink/10 hairlines and whitespace instead of cards, shadows, or background changes.
 - **Do** use the ink opacity ladder — 90 / 60 / 40 / 10 percent — for hierarchy; never add a gray token.
@@ -200,10 +236,11 @@ A full-bleed Deep Ink field opens the home page and every article, and a matchin
 - **Do** use Warm Sand Ink (#8f6036) whenever the warm accent carries text; #d4a373 is for 1px rules and non-text marks only.
 - **Do** build graphics from type and paper — grain, 1px Warm Sand rules, oversized serif marks, marker sweeps — rather than imagery or effects.
 - **Do** use 56–112px section spacing and a 56rem reading column so pages feel like one publication.
+- **Do** make every interactive target at least 44×44 CSS px on coarse pointers; expand the hit area with a transparent pseudo-element rather than growing the Editorial visual.
 
 ### Don't:
-- **Don't** introduce `#2563eb` blue, `#e5e7eb` gray borders, 8–12px radii, white cards, or colored pill badges. These were the pre-migration pattern; every surface is now Editorial, and this look is anti-reference rather than a second system to extend.
-- **Don't** add box-shadows, elevation, glassmorphism, gradients, or glow effects at any state.
+- **Don't** introduce `#2563eb` blue, `#e5e7eb` gray borders, 8–12px radii, white cards, or colored pill badges on Editorial surfaces. These were the pre-migration pattern; every Editorial surface is now flat, and this look is anti-reference rather than a second system to extend. The scoped Interactive Exceptions above are the only places for white cards, soft chrome, and non-Editorial radii.
+- **Don't** add box-shadows, elevation, glassmorphism, gradients, or glow effects on Editorial surfaces. The scoped Interactive Exceptions above are the only place for soft chrome; they must not leak.
 - **Don't** use Warm Sand for large fills, body text, or more than one competing accent; its rarity is the point.
 - **Don't** use emoji as ornament or iconography on Editorial surfaces (the legacy ⭐ / ✅ / 🔧 style stays with the legacy pages until they are migrated).
 - **Don't** set buttons, labels, or metadata in the serif face, or headings in the sans face.

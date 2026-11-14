@@ -20,6 +20,30 @@
         ],
         "createdAt": "2026-11-01T10:31:29.015Z",
         "reason": "user declined footer change: pre-existing static ICP footer kept as-is by explicit request"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "geist",
+        "createdAt": "2026-11-12T04:19:35.730Z",
+        "reason": "User-specified AsciiSharks spec mandates Geist, Inter, Arial, sans-serif"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "geist mono",
+        "createdAt": "2026-11-12T04:19:35.891Z",
+        "reason": "User-specified AsciiSharks spec mandates Geist Mono, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace"
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-12T11:52:16.274Z",
+        "reason": "Sanctioned Interactive Exception: DESIGN.md keeps the Geist/Inter control stack for the ASCII ocean island; the headline now uses the site serif"
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-11-12T11:52:16.442Z",
+        "reason": "Sanctioned Interactive Exception: DESIGN.md keeps Geist Mono for composer hints and tool labels inside the ASCII ocean island"
       }
     ]
   }

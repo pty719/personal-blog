@@ -80,7 +80,7 @@ onMounted(() => {
           </router-link>
           <router-link
             to="/articles"
-            class="hero-link font-sans text-sm tracking-[0.15em]"
+            class="hero-link tap-target font-sans text-sm tracking-[0.15em]"
           >
             阅读文章
           </router-link>
@@ -259,11 +259,13 @@ onMounted(() => {
   border-color: var(--color-background);
 }
 
-/* 超大字：深墨场上的暖沙水印，不承载信息 */
+/* 超大字：深墨场上的暖沙水印，不承载信息。
+   垂直居中让它成为 hero 右中的视觉落点，只在右边缘被裁切，保留水印身份 */
 .hero-mark {
   position: absolute;
-  top: -0.32em;
+  top: 50%;
   right: -0.06em;
+  transform: translateY(-50%);
   z-index: 0;
   font-family: var(--font-serif);
   font-style: italic;
@@ -281,7 +283,7 @@ onMounted(() => {
 }
 @media (max-width: 767px) {
   .hero-cover { padding: 64px 24px 72px; }
-  .hero-mark { top: -0.16em; font-size: 14rem; opacity: 0.18; }
+  .hero-mark { top: -0.16em; transform: none; font-size: 14rem; opacity: 0.18; }
 }
 
 /* 封底：与 hero 呼应的深墨带，给页面一个收束 */

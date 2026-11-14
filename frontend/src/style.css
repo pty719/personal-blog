@@ -223,3 +223,22 @@
   .prose-editorial.prose-chat ol { padding-left: 1.25em; }
   .prose-editorial.prose-chat pre { font-size: 0.8125rem; }
 }
+
+
+/* 触屏命中区扩展：不改变视觉尺寸，只把透明可点区域扩到 44px。
+   仅对 coarse pointer 或 ≤1023px 生效；桌面鼠标布局不变。 */
+@layer components {
+  @media (pointer: coarse), (max-width: 1023px) {
+    .tap-target { position: relative; }
+    .tap-target::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: max(100%, 44px);
+      height: 44px;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+    }
+  }
+}

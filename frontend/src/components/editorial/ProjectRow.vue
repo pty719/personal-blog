@@ -29,7 +29,7 @@ defineProps({
         :href="project.repo"
         target="_blank"
         rel="noopener noreferrer"
-        class="font-sans text-sm tracking-[0.1em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+        class="project-link tap-target font-sans text-sm tracking-[0.1em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
       >
         GitHub 仓库 ➡
       </a>
@@ -38,7 +38,7 @@ defineProps({
         :href="project.url"
         target="_blank"
         rel="noopener noreferrer"
-        class="font-sans text-sm tracking-[0.1em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+        class="project-link tap-target font-sans text-sm tracking-[0.1em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
       >
         在线预览 ➡
       </a>

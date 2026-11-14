@@ -23,6 +23,14 @@ backend/blog.db
 .impeccable/hook.cache.json
 .impeccable/live/
 .impeccable/config.local.json
+# frontend/ 下那份是前端工具自己的缓存（整目录不入库）
+frontend/.impeccable/
+
+# ===== 测试与素材产物 =====
+test-results/
+playwright-report/
+# kling 等 AIGC 生成的大图素材：11MB 级别，不是站点资源，不进库
+img/
 
 # ===== Python =====
 .venv/

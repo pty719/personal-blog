@@ -41,4 +41,13 @@ defineProps({
   border-left-color: var(--color-primary);
 }
 .toc-item--sub a { padding-left: 1.25rem; }
+
+@media (pointer: coarse), (max-width: 1099px) {
+  .toc-list li + li { margin-top: 0; }
+  .toc-list a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
 </style>

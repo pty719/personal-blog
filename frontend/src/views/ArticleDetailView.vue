@@ -5,6 +5,7 @@ import { renderArticleMarkdown } from '../lib/articleMarkdown'
 import { apiGet } from '../lib/publicApi'
 import StateBlock from '../components/editorial/StateBlock.vue'
 import TocList from '../components/editorial/TocList.vue'
+import SelectionFlowerArticle from '../components/selection-flower/SelectionFlowerArticle.vue'
 
 const route = useRoute()
 const article = ref(null)
@@ -160,6 +161,9 @@ onBeforeUnmount(() => {
           >
             {{ article.summary }}
           </div>
+          <p class="article-selection-hint font-mono">
+            拖选正文 · 文字会开花
+          </p>
         </div>
       </header>
 
@@ -170,7 +174,10 @@ onBeforeUnmount(() => {
 
       <div class="article-body-layout" :class="{ 'has-toc': toc.length }">
         <div class="article-body">
-          <div ref="contentRef" class="prose-editorial mt-10" v-html="bodyHtml"></div>
+          <SelectionFlowerArticle>
+            <div ref="contentRef" class="prose-editorial mt-10" v-html="bodyHtml"></div>
+          </SelectionFlowerArticle>
+
 
           <section v-if="related.length" class="mt-14 pt-8 border-t border-foreground/10">
             <h2 class="font-serif text-xl md:text-2xl font-light tracking-tight">相关文章</h2>
@@ -194,7 +201,7 @@ onBeforeUnmount(() => {
           <div class="mt-14 pt-6 border-t border-foreground/10">
             <router-link
               to="/articles"
-              class="font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
+              class="article-back-link tap-target font-sans text-sm tracking-[0.15em] border-b border-foreground/30 hover:border-foreground pb-0.5 transition-colors"
             >
               ← 返回文章列表
             </router-link>
@@ -242,7 +249,10 @@ onBeforeUnmount(() => {
   margin: 0 auto;
 }
 
-.article-title { color: var(--color-background); }
+.article-title {
+  color: var(--color-background);
+  text-wrap: balance;
+}
 .article-meta {
   margin-top: 1.25rem;
   color: rgba(249, 248, 246, 0.7);
@@ -264,6 +274,13 @@ onBeforeUnmount(() => {
   border-top: 1px solid rgba(249, 248, 246, 0.2);
   color: rgba(249, 248, 246, 0.84);
 }
+.article-selection-hint {
+  margin-top: 1.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(249, 248, 246, 0.64);
+}
+
 .article-standfirst::before {
   content: "“";
   position: absolute;
@@ -286,12 +303,28 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(28, 28, 28, 0.1);
 }
 .toc-inline summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   font-family: var(--font-sans);
   font-size: 0.75rem;
+  line-height: 1.4;
   letter-spacing: 0.15em;
   color: rgba(28, 28, 28, 0.7);
   cursor: pointer;
+  list-style: none;
 }
+.toc-inline summary::-webkit-details-marker { display: none; }
+.toc-inline summary::marker { content: ""; }
+.toc-inline summary::after {
+  content: "+";
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1;
+  color: rgba(28, 28, 28, 0.7);
+}
+.toc-inline[open] summary::after { content: "−"; }
 .toc-inline :deep(.toc-list) { margin-top: 0.5rem; }
 
 .toc-rail { display: none; }
@@ -321,6 +354,10 @@ onBeforeUnmount(() => {
 
 @media (max-width: 1099px) {
   .toc-inline { display: block; }
+}
+
+@media (pointer: coarse), (max-width: 1099px) {
+  .toc-inline summary { min-height: 44px; }
 }
 
 @media (min-width: 768px) {

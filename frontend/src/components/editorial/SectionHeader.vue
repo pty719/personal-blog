@@ -17,7 +17,7 @@ defineProps({
       <router-link
         v-if="to"
         :to="to"
-        class="font-sans text-xs tracking-[0.2em] text-foreground/70 hover:text-foreground transition-colors"
+        class="section-action tap-target font-sans text-xs tracking-[0.2em] text-foreground/70 hover:text-foreground transition-colors"
       >
         {{ linkText }}
       </router-link>
